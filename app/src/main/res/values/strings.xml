@@ -1,3 +1,36 @@
 <resources>
     <string name="app_name">SmsControl</string>
+    <string name="theme">Theme</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="dark_mode_summary">Change the color palette</string>
+    <string name="feedback">Send feedback</string>
+    <string name="feedback_summary">Report technical issues or suggest new features</string>
+    <string name="about">About</string>
+    <string name="about_summary">Show application information</string>
+    <string name="security_code">Security Code</string>
+    <string name="security_code_summary">code that will be checked for incoming messages</string>
+    <string name="commands">Commands</string>
+    <string name="home">Home</string>
+    <string name="settings">Settings</string>
+    <string name="wifi_category">WiFi</string>
+    <string name="wifi_state_on">Set WiFi state on</string>
+    <string name="wifi_state_off">Set wifi state off</string>
+    <string name="mobile_data_category">Mobile Data</string>
+    <string name="mobile_data_on">Set mobile data on</string>
+    <string name="mobile_data_off">Set mobile data off</string>
+    <string name="sound_category">Sound</string>
+    <string name="sound_on">Set sound level to 100%</string>
+    <string name="sound_off">Set sound level to 0%</string>
+    <string name="sound_play">Play selected sound</string>
+    <string name="set_sound_to_play">select the sound that should be played</string>
+    <string name="set_sound_level">Set sound level</string>
+    <string name="other_category">Other</string>
+    <string name="run_app">Run selected app</string>
+    <string name="select_app_to_run">Select app to run</string>
+    <string name="command_list">Send command list</string>
+    <string name="root_category">Root</string>
+    <string name="restart">Restart</string>
+    <string name="shutdown">Shutdown</string>
+    <string name="location">Current location</string>
+    <string name="sms_control_status">SmsControl runs in the background</string>
 </resources>

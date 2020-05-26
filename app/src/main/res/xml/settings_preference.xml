@@ -1,0 +1,35 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        android:title="@string/theme"
+        app:iconSpaceReserved="false">
+
+        <ListPreference
+            android:icon="@drawable/ic_dark_mode"
+            android:key="dark_mode"
+            android:title="@string/dark_mode"
+            android:defaultValue="Default"
+            android:summary="@string/dark_mode_summary"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/app_name"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:id="@+id/feedback_settings"
+            android:icon="@drawable/ic_feedback"
+            android:summary="@string/feedback_summary"
+            android:title="@string/feedback"
+            app:key="feedback" />
+
+        <Preference
+            android:id="@+id/about_settings"
+            android:icon="@drawable/ic_info"
+            android:summary="@string/about_summary"
+            android:title="@string/about"
+            app:key="about" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
