@@ -1,9 +1,40 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="materialAlertDialogTheme">@style/AlertDialog</item>
+        <item name="alertDialogTheme">@style/MyPreferenceDialog</item>
+    </style>
+
+    <!-- Style used in Alert Dialog -->
+    <style name="AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/ButtonForDialogConfirm</item>
+        <item name="buttonBarNegativeButtonStyle">@style/ButtonForDialogCancel</item>
+        <item name="buttonBarNeutralButtonStyle">@style/ButtonForDialogConfirm</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/AlertDialogTextStyle</item>
+    </style>
+
+    <!-- button color used in Alert Dialog -->
+    <style name="ButtonForDialogConfirm" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorButtonConfirm</item>
+    </style>
+
+    <style name="ButtonForDialogCancel" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorButtonCancel</item>
+    </style>
+
+    <!-- style change text in alert dialog -->
+    <style name="AlertDialogTextStyle" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- style for preference list -->
+    <style name="MyPreferenceDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/ButtonForDialogConfirm</item>
+        <item name="titleTextColor">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 

@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
-    <color name="primaryTextColor">#131313</color>
+    <color name="colorPrimary">#013FB8</color>
+    <color name="colorPrimaryDark">#013FB8</color>
+    <color name="colorAccent">#19BD20</color>
+    <color name="colorButtonConfirm">#1565C0</color>
+    <color name="colorButtonCancel">#202020</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="primaryTextColor">#DFFFFFFF</color>
+    <color name="drawableColor">#E8E6E6</color>
+    <color name="bottomNavigationItemUncheck">#131313</color>
 </resources>

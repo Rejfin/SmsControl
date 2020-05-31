@@ -33,4 +33,10 @@
     <string name="shutdown">Shutdown</string>
     <string name="location">Current location</string>
     <string name="sms_control_status">SmsControl runs in the background</string>
+    <string name="ok">OK</string>
+    <string name="understand">I understand</string>
+    <string name="cancel">Cancel</string>
+    <string name="sms_permission_info">In order for this application to work, you must grant permission to receive and read sms messages</string>
+    <string name="sms_permission_denied">The application will not work properly until you grant permissions</string>
+    <string name="activity_not_found">No email application found</string>
 </resources>

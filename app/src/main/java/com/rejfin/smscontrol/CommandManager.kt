@@ -2,11 +2,8 @@ package com.rejfin.smscontrol
 
 import android.content.Context
 import android.content.Intent
-import android.net.wifi.WifiManager
-import android.os.Build
 import androidx.preference.PreferenceManager
 import android.provider.Telephony
-import android.widget.Toast
 
 class CommandManager {
     fun manage(context: Context, intent: Intent?){

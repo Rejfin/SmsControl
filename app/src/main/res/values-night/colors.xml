@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0D0D0D</color>
+    <color name="colorPrimaryDark">#070707</color>
+    <color name="colorAccent">#19BD20</color>
+    <color name="colorButtonConfirm">#19BD20</color>
+    <color name="colorButtonCancel">#C62828</color>
+    <color name="primaryTextColor">#DFFFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="drawableColor">#E8E6E6</color>
+    <color name="bottomNavigationItemUncheck">#FFFFFF</color>
+</resources>
