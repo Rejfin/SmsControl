@@ -19,11 +19,11 @@
     <string name="mobile_data_on">Set mobile data on</string>
     <string name="mobile_data_off">Set mobile data off</string>
     <string name="sound_category">Sound</string>
-    <string name="sound_on">Set sound level to 100%</string>
-    <string name="sound_off">Set sound level to 0%</string>
+    <string name="sound_on">Set sound volume to 100%</string>
+    <string name="sound_off">Set sound volume to 0%</string>
     <string name="sound_play">Play selected sound</string>
     <string name="set_sound_to_play">select the sound that should be played</string>
-    <string name="set_sound_level">Set sound level</string>
+    <string name="set_sound_level">Set sound volume</string>
     <string name="other_category">Other</string>
     <string name="run_app">Run selected app</string>
     <string name="select_app_to_run">Select app to run</string>
@@ -39,4 +39,7 @@
     <string name="sms_permission_info">In order for this application to work, you must grant permission to receive and read sms messages</string>
     <string name="sms_permission_denied">The application will not work properly until you grant permissions</string>
     <string name="activity_not_found">No email application found</string>
+    <string name="all_commands_disabled">All commands are disabled</string>
+    <string name="start_app_error">Selected application failed to start</string>
+    <string name="start_app_not_selected">You must select the application you want to run</string>
 </resources>
