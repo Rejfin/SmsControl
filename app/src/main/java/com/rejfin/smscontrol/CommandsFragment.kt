@@ -13,6 +13,7 @@ import android.provider.OpenableColumns
 import android.text.InputFilter
 import android.text.InputType
 import androidx.preference.*
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class CommandsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
@@ -48,8 +49,8 @@ class CommandsFragment : PreferenceFragmentCompat(),
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             val wifiOnPref = preferenceManager.findPreference<CustomPreferenceItem>("wifi_on")
             val wifiOffPref = preferenceManager.findPreference<CustomPreferenceItem>("wifi_off")
-            wifiOnPref!!.setState(false,wifiOnPref)
-            wifiOffPref!!.setState(false,wifiOffPref)
+            wifiOnPref!!.setAvailability(false)
+            wifiOffPref!!.setAvailability(false)
         }
 
         // set click listener on pick sound properties //
@@ -59,6 +60,36 @@ class CommandsFragment : PreferenceFragmentCompat(),
             startActivityForResult(intent,1)
             true
         }
+
+        // check if commands requiring root privileges have it //
+        val rebootPref = preferenceManager.findPreference<CustomPreferenceItem>("restart")
+        rebootPref?.setStateChangeListener(object : CustomPreferenceItem.OnStateChangeEventListener{
+            override fun onStateChange() {
+                if(!pref!!.getBoolean("root_status",false)){
+                    MaterialAlertDialogBuilder(context)
+                        .setMessage(getString(R.string.root_needed))
+                        .setPositiveButton(R.string.understand
+                        ) { dialog, _ -> dialog?.dismiss() }
+                        .show()
+                    rebootPref.setState(false)
+                }
+            }
+        })
+
+        // check if commands requiring root privileges have it //
+        val shutDownPref = preferenceManager.findPreference<CustomPreferenceItem>("shutdown")
+        shutDownPref?.setStateChangeListener(object : CustomPreferenceItem.OnStateChangeEventListener{
+            override fun onStateChange() {
+                if(!pref!!.getBoolean("root_status",false)){
+                    MaterialAlertDialogBuilder(context)
+                        .setMessage(getString(R.string.root_needed))
+                        .setPositiveButton(R.string.understand
+                        ) { dialog, _ -> dialog?.dismiss() }
+                        .show()
+                    shutDownPref.setState(false)
+                }
+            }
+        })
     }
 
     // create entry and values for "pick app" list //

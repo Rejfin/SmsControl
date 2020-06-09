@@ -14,6 +14,19 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/root"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:icon="@drawable/ic_root"
+            android:key="root_status"
+            android:title="@string/grant_root"
+            android:defaultValue="@string/root_denied"
+            app:useSimpleSummaryProvider="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/app_name"
         app:iconSpaceReserved="false">
 

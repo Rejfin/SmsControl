@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
 
 class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -18,9 +19,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val darkModePref = findPreference<Preference>("dark_mode") as ListPreference
         val aboutPref = findPreference<Preference>("about")
         val feedbackPref = findPreference<Preference>("feedback")
+        val rootPref = findPreference<Preference>("root_status")
 
-        // set summary in 'About' preference //
+        // set summary in 'About' and 'Root' preferences //
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
         aboutPref?.summary = "SmsControl v${BuildConfig.VERSION_NAME} by Rejfin"
+        rootPref?.summary = if (pref.getBoolean("root_status",false)){
+            getString(R.string.root_granted)
+        }else{
+            getString(R.string.root_denied)
+        }
 
         // set feedback listener, create chooser intent //
         feedbackPref?.setOnPreferenceClickListener {
@@ -49,6 +57,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 }else{
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                 }
+            }
+            true
+        }
+
+        rootPref?.setOnPreferenceClickListener {
+            if(RunCmdCommand().command("su -c ls")){
+                it.summary = getString(R.string.root_granted)
+                pref.edit().putBoolean("root_status",true).apply()
+            }else{
+                it.summary = getString(R.string.root_denied)
+                pref.edit().putBoolean("root_status",false).apply()
             }
             true
         }

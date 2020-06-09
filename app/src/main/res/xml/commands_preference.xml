@@ -95,6 +95,13 @@
                 android:layout="@layout/preference_command_layout"
                 app:useSimpleSummaryProvider="true"/>
             <com.rejfin.smscontrol.CustomPreferenceItem
+                android:key="location"
+                app:defaultValue="location"
+                android:title="@string/location"
+                app:iconSpaceReserved="false"
+                android:layout="@layout/preference_command_layout"
+                app:useSimpleSummaryProvider="true"/>
+            <com.rejfin.smscontrol.CustomPreferenceItem
                 android:key="run_app"
                 android:title="@string/run_app"
                 app:iconSpaceReserved="false"
@@ -123,13 +130,6 @@
                 android:key="shutdown"
                 app:defaultValue="shutdown"
                 android:title="@string/shutdown"
-                app:iconSpaceReserved="false"
-                android:layout="@layout/preference_command_layout"
-                app:useSimpleSummaryProvider="true"/>
-            <com.rejfin.smscontrol.CustomPreferenceItem
-                android:key="location"
-                app:defaultValue="location"
-                android:title="@string/location"
                 app:iconSpaceReserved="false"
                 android:layout="@layout/preference_command_layout"
                 app:useSimpleSummaryProvider="true"/>
