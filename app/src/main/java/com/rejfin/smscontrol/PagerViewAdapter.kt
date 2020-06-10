@@ -13,10 +13,6 @@ class PagerViewAdapter(fm:FragmentManager): FragmentPagerAdapter(fm, BEHAVIOR_RE
         return fragmentList[position]
     }
 
-    fun getPageId(fragment:Fragment):Int{
-        return fragmentList.indexOf(fragment)
-    }
-
     override fun getCount(): Int {
         return 3
     }

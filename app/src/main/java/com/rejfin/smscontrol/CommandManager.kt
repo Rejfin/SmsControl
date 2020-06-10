@@ -14,6 +14,7 @@ import android.provider.Telephony
 import android.telephony.SmsManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startForegroundService
+import kotlinx.coroutines.*
 
 class CommandManager {
     fun manage(context: Context, intent: Intent?){
@@ -86,15 +87,21 @@ class CommandManager {
                         sendCommandList(context,pref,senderNumber!!)
                     }
                 }
+                pref.getString("location", null) -> {
+                    if(pref.getBoolean("location_state",false)) {
+                        // TODO LOCATION COMMAND
+                    }
+                }
                 // root commands //
                 pref.getString("restart", null) -> {
-                    // TODO RESTART COMMAND
+                    if(pref.getBoolean("restart_state",false)) {
+                        rebootPhone(context)
+                    }
                 }
                 pref.getString("shutdown", null) -> {
-                    // TODO SHUTDOWN COMMAND
-                }
-                pref.getString("location", null) -> {
-                    // TODO LOCATION COMMAND
+                    if(pref.getBoolean("shutdown_state",false)) {
+                        shutdownPhone(context)
+                    }
                 }
             }
         }
@@ -187,7 +194,7 @@ class CommandManager {
     private fun sendCommandList(context:Context,pref:SharedPreferences,senderNumber:String){
         val allKeys = pref.all
         val filterArray = arrayListOf(
-            "sound_uri","selected_app","dark_mode","sound_name","security_code","command_list","command_list_state")
+            "sound_uri","selected_app","dark_mode","sound_name","security_code","command_list","command_list_state","root_state")
         val stateMap = mutableMapOf<String,String>()
         val commandMap = mutableMapOf<String,String>()
         for (i in allKeys){
@@ -227,6 +234,30 @@ class CommandManager {
             }
         }catch(e:Exception){
             Toast.makeText(context,e.localizedMessage,Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun rebootPhone(context:Context){
+        CoroutineScope(Dispatchers.IO).launch {
+            launch {
+                // it's time for the phone to save the message as received, otherwise a boot loop may appear //
+                delay(3000)
+                if(!RunCmdCommand.command("su -c reboot now")){
+                    Toast.makeText(context,context.getString(R.string.unexpected_error),Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    private fun shutdownPhone(context:Context){
+        CoroutineScope(Dispatchers.IO).launch {
+            launch {
+                // it's time for the phone to save the message as received, otherwise a boot loop may appear //
+                delay(3000)
+                if(!RunCmdCommand.command("su 0 -c reboot -p")){
+                    Toast.makeText(context,context.getString(R.string.unexpected_error),Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 }

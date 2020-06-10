@@ -48,4 +48,5 @@
     <string name="grant_root_summary">It\'s possible only when you have rooted phone</string>
     <string name="root_granted">ACCESS GRANTED</string>
     <string name="root_denied">ACCESS DENIED</string>
+    <string name="unexpected_error">Unexpected error occurred</string>
 </resources>

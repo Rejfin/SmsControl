@@ -62,7 +62,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         rootPref?.setOnPreferenceClickListener {
-            if(RunCmdCommand().command("su -c ls")){
+            if(RunCmdCommand.command("su -c ls")){
                 it.summary = getString(R.string.root_granted)
                 pref.edit().putBoolean("root_status",true).apply()
             }else{

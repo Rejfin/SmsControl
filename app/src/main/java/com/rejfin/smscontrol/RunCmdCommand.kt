@@ -6,7 +6,7 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.lang.IllegalStateException
 
-class RunCmdCommand {
+object RunCmdCommand {
     fun command(command: String): Boolean {
         val process = try {
             Runtime.getRuntime().exec(arrayOf("sh", "-c", command))
