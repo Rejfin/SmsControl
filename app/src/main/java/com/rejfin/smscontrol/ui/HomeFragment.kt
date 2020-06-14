@@ -1,4 +1,4 @@
-package com.rejfin.smscontrol
+package com.rejfin.smscontrol.ui
 
 import android.Manifest
 import android.content.ComponentName
@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.rejfin.smscontrol.R
+import com.rejfin.smscontrol.receivers.SmsBroadcastReceiver
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
@@ -62,7 +64,11 @@ class HomeFragment : Fragment() {
                     .setNegativeButton(getString(R.string.cancel)
                     ) { dialog, _ -> dialog?.dismiss() }
                     .setPositiveButton(getString(R.string.ok)
-                    ) { _, _ -> requestPermissions(arrayOf(Manifest.permission.RECEIVE_SMS),1) }
+                    ) { _, _ ->
+                        requestPermissions(arrayOf(
+                            Manifest.permission.RECEIVE_SMS,
+                            Manifest.permission.READ_SMS),
+                            1) }
                     .show()
             }else{
                 setReceiverState(!isReceiverRunning(requireContext(),component!!))

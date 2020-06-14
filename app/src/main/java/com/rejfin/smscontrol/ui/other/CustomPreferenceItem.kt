@@ -1,4 +1,4 @@
-package com.rejfin.smscontrol
+package com.rejfin.smscontrol.ui.other
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceManager
 import androidx.preference.PreferenceViewHolder
+import com.rejfin.smscontrol.R
 import kotlinx.android.synthetic.main.preference_command_layout.view.*
 
 class CustomPreferenceItem : EditTextPreference{

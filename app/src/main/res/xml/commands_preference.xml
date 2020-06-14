@@ -12,14 +12,14 @@
         <PreferenceCategory
             android:title="@string/wifi_category"
             app:iconSpaceReserved="false">
-            <com.rejfin.smscontrol.CustomPreferenceItem
+            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
                 android:key="wifi_on"
                 app:defaultValue="wifiOn"
                 android:title="@string/wifi_state_on"
                 app:iconSpaceReserved="false"
                 android:layout="@layout/preference_command_layout"
                 app:useSimpleSummaryProvider="true"/>
-            <com.rejfin.smscontrol.CustomPreferenceItem
+            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
                 android:key="wifi_off"
                 app:defaultValue="wifiOff"
                 android:title="@string/wifi_state_off"
@@ -31,14 +31,14 @@
         <PreferenceCategory
             android:title="@string/mobile_data_category"
             app:iconSpaceReserved="false">
-            <com.rejfin.smscontrol.CustomPreferenceItem
+            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
                 android:key="mobile_data_on"
                 app:defaultValue="mobileDataOn"
                 android:title="@string/mobile_data_on"
                 app:iconSpaceReserved="false"
                 android:layout="@layout/preference_command_layout"
                 app:useSimpleSummaryProvider="true"/>
-            <com.rejfin.smscontrol.CustomPreferenceItem
+            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
                 android:key="mobile_data_off"
                 app:defaultValue="mobileDataOff"
                 android:title="@string/mobile_data_off"
@@ -50,28 +50,28 @@
         <PreferenceCategory
             android:title="@string/sound_category"
             app:iconSpaceReserved="false">
-            <com.rejfin.smscontrol.CustomPreferenceItem
+            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
                 android:key="sound_on"
                 app:defaultValue="soundOn"
                 android:title="@string/sound_on"
                 app:iconSpaceReserved="false"
                 android:layout="@layout/preference_command_layout"
                 app:useSimpleSummaryProvider="true"/>
-            <com.rejfin.smscontrol.CustomPreferenceItem
+            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
                 android:key="sound_off"
                 app:defaultValue="soundOff"
                 android:title="@string/sound_off"
                 app:iconSpaceReserved="false"
                 android:layout="@layout/preference_command_layout"
                 app:useSimpleSummaryProvider="true"/>
-            <com.rejfin.smscontrol.CustomPreferenceItem
+            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
                 android:key="sound_level"
                 app:defaultValue="setSoundLevel"
                 android:title="@string/set_sound_level"
                 app:iconSpaceReserved="false"
                 android:layout="@layout/preference_command_layout"
                 app:useSimpleSummaryProvider="true"/>
-            <com.rejfin.smscontrol.CustomPreferenceItem
+            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
                 android:key="sound_play"
                 app:defaultValue="playSound"
                 android:title="@string/sound_play"
@@ -87,21 +87,21 @@
         <PreferenceCategory
             android:title="@string/other_category"
             app:iconSpaceReserved="false">
-            <com.rejfin.smscontrol.CustomPreferenceItem
+            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
                 android:key="command_list"
                 app:defaultValue="commandList"
                 android:title="@string/command_list"
                 app:iconSpaceReserved="false"
                 android:layout="@layout/preference_command_layout"
                 app:useSimpleSummaryProvider="true"/>
-            <com.rejfin.smscontrol.CustomPreferenceItem
+            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
                 android:key="location"
                 app:defaultValue="location"
                 android:title="@string/location"
                 app:iconSpaceReserved="false"
                 android:layout="@layout/preference_command_layout"
                 app:useSimpleSummaryProvider="true"/>
-            <com.rejfin.smscontrol.CustomPreferenceItem
+            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
                 android:key="run_app"
                 android:title="@string/run_app"
                 app:iconSpaceReserved="false"
@@ -119,14 +119,14 @@
         <PreferenceCategory
             android:title="@string/root_category"
             app:iconSpaceReserved="false">
-            <com.rejfin.smscontrol.CustomPreferenceItem
+            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
                 android:key="restart"
                 app:defaultValue="restart"
                 android:title="@string/restart"
                 app:iconSpaceReserved="false"
                 android:layout="@layout/preference_command_layout"
                 app:useSimpleSummaryProvider="true"/>
-            <com.rejfin.smscontrol.CustomPreferenceItem
+            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
                 android:key="shutdown"
                 app:defaultValue="shutdown"
                 android:title="@string/shutdown"

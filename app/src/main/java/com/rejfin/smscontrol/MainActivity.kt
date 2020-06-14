@@ -1,13 +1,18 @@
 package com.rejfin.smscontrol
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
+import com.rejfin.smscontrol.ui.CommandsFragment
+import com.rejfin.smscontrol.ui.HomeFragment
+import com.rejfin.smscontrol.ui.SettingsFragment
+import com.rejfin.smscontrol.ui.other.PagerViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +22,9 @@ class MainActivity : AppCompatActivity(){
         loadTheme()
 
         // set view pager for fragments//
-        val adapter = PagerViewAdapter(supportFragmentManager)
+        val adapter = PagerViewAdapter(
+            supportFragmentManager
+        )
         adapter.addFragment(HomeFragment(),resources.getString(R.string.home))
         adapter.addFragment(CommandsFragment(),resources.getString(R.string.commands))
         adapter.addFragment(SettingsFragment(),resources.getString(R.string.settings))

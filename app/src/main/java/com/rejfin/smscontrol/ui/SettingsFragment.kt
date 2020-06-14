@@ -1,4 +1,4 @@
-package com.rejfin.smscontrol
+package com.rejfin.smscontrol.ui
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -11,6 +11,9 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import com.rejfin.smscontrol.BuildConfig
+import com.rejfin.smscontrol.R
+import com.rejfin.smscontrol.helpers_class.RunCmdCommand
 
 class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -61,6 +64,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
+        // try to obtain root privilege //
         rootPref?.setOnPreferenceClickListener {
             if(RunCmdCommand.command("su -c ls")){
                 it.summary = getString(R.string.root_granted)

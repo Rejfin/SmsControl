@@ -1,4 +1,4 @@
-package com.rejfin.smscontrol
+package com.rejfin.smscontrol.services
 
 import android.app.Service
 import android.content.Intent
@@ -6,6 +6,8 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.IBinder
 import androidx.core.app.NotificationManagerCompat
+import com.rejfin.smscontrol.ForegroundNotification
+import com.rejfin.smscontrol.R
 import kotlinx.coroutines.*
 
 class PlayMusicService : Service() {
@@ -18,7 +20,9 @@ class PlayMusicService : Service() {
         val mediaPlayer = MediaPlayer.create(applicationContext,Uri.parse(uriString))
 
         val notify = ForegroundNotification()
-            .createNotification(this,"A", NotificationManagerCompat.IMPORTANCE_LOW)
+            .createNotification(this,"A", NotificationManagerCompat.IMPORTANCE_LOW,getString(
+                R.string.playing_music
+            ))
         this.startForeground(1,notify)
 
         CoroutineScope(Dispatchers.IO).launch {

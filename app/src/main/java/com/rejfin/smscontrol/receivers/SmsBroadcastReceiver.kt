@@ -1,7 +1,8 @@
-package com.rejfin.smscontrol
+package com.rejfin.smscontrol.receivers
 
 import android.content.*
 import android.provider.Telephony
+import com.rejfin.smscontrol.CommandManager
 
 
 class SmsBroadcastReceiver : BroadcastReceiver() {

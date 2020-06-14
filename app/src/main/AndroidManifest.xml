@@ -5,6 +5,10 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
     <uses-permission android:name="android.permission.READ_SMS"/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -21,12 +25,13 @@
             </intent-filter>
         </activity>
         <receiver
-            android:name=".SmsBroadcastReceiver"
+            android:name=".receivers.SmsBroadcastReceiver"
             android:enabled="false">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
             </intent-filter>
         </receiver>
-        <service android:name=".PlayMusicService" android:description="@string/app_name"/>
+        <service android:name=".services.PlayMusicService" android:description="@string/app_name"/>
+        <service android:name=".services.LocationService" android:description="@string/app_name"/>
     </application>
 </manifest>

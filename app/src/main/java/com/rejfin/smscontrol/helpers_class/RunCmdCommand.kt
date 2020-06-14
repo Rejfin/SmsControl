@@ -1,4 +1,4 @@
-package com.rejfin.smscontrol
+package com.rejfin.smscontrol.helpers_class
 
 import android.util.Log
 import java.io.BufferedReader
@@ -7,6 +7,7 @@ import java.io.InputStreamReader
 import java.lang.IllegalStateException
 
 object RunCmdCommand {
+    // command used to run console command //
     fun command(command: String): Boolean {
         val process = try {
             Runtime.getRuntime().exec(arrayOf("sh", "-c", command))

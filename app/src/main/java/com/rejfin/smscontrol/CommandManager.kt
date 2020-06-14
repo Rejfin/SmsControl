@@ -1,9 +1,8 @@
 package com.rejfin.smscontrol
 
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
+import android.annotation.SuppressLint
+import android.content.*
+import android.location.LocationManager
 import android.media.AudioManager
 import android.media.RingtoneManager
 import android.net.Uri
@@ -11,10 +10,16 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.preference.PreferenceManager
 import android.provider.Telephony
-import android.telephony.SmsManager
+import android.telephony.SubscriptionManager
+import android.telephony.TelephonyManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startForegroundService
+import com.rejfin.smscontrol.helpers_class.RunCmdCommand
+import com.rejfin.smscontrol.helpers_class.SendSms
+import com.rejfin.smscontrol.services.LocationService
+import com.rejfin.smscontrol.services.PlayMusicService
 import kotlinx.coroutines.*
+import java.io.IOException
 
 class CommandManager {
     fun manage(context: Context, intent: Intent?){
@@ -32,7 +37,6 @@ class CommandManager {
             println("WRONG MESSAGE FORMAT")
         }
 
-        // TODO lock broadcast after 5 bad code attempt maybe //
         // TODO replace println with function to write log to file //
         if(pref.getString("security_code",null) == messageSecurityCode && messageBody[0] == '@'){
             when(messageCommand){
@@ -47,10 +51,14 @@ class CommandManager {
                     }
                 }
                 pref.getString("mobile_data_on", null) -> {
-                    // TODO MOBILE DATA ON COMMAND
+                    if(pref.getBoolean("mobile_data_on_state",false)) {
+                        setMobileDataEnabled(context, true)
+                    }
                 }
                 pref.getString("mobile_data_off", null) -> {
-                    // TODO MOBILE DATA OFF COMMAND
+                    if(pref.getBoolean("mobile_data_off_state",false)) {
+                        setMobileDataEnabled(context, false)
+                    }
                 }
                 pref.getString("sound_on", null) -> {
                     if(pref.getBoolean("sound_on_state",false)) {
@@ -89,10 +97,9 @@ class CommandManager {
                 }
                 pref.getString("location", null) -> {
                     if(pref.getBoolean("location_state",false)) {
-                        // TODO LOCATION COMMAND
+                        getCurrentLocation(context,senderNumber!!)
                     }
                 }
-                // root commands //
                 pref.getString("restart", null) -> {
                     if(pref.getBoolean("restart_state",false)) {
                         rebootPhone(context)
@@ -221,20 +228,7 @@ class CommandManager {
         if(message.isEmpty()){
             message = context.getString(R.string.all_commands_disabled)
         }
-        try{
-            val smsManager = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1){
-                SmsManager.getSmsManagerForSubscriptionId(SmsManager.getDefaultSmsSubscriptionId())
-            }else{
-                SmsManager.getDefault()
-            }
-
-            val messages = smsManager.divideMessage(message)
-            for (mess in messages){
-                smsManager.sendTextMessage(senderNumber,null,mess,null,null)
-            }
-        }catch(e:Exception){
-            Toast.makeText(context,e.localizedMessage,Toast.LENGTH_LONG).show()
-        }
+        SendSms.sendSms(context,message,senderNumber)
     }
 
     private fun rebootPhone(context:Context){
@@ -258,6 +252,97 @@ class CommandManager {
                     Toast.makeText(context,context.getString(R.string.unexpected_error),Toast.LENGTH_LONG).show()
                 }
             }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun setMobileDataEnabled(context: Context, enable: Boolean) {
+        try{
+            val command = StringBuilder()
+            command.append("su -c service call phone ")
+            command.append(getTransactionCode(context) + " ")
+            if (Build.VERSION.SDK_INT >= 22) {
+                val manager = context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
+                var id = 0
+                if (manager.activeSubscriptionInfoCount > 0){
+                    id = manager.activeSubscriptionInfoList[0].subscriptionId
+                }
+                command.append("i32 ")
+                command.append("$id ")
+            }
+            command.append("i32 ")
+            command.append(if (enable) "1" else "0")
+            command.append("\n")
+            RunCmdCommand.command(command.toString())
+        }catch(e: IOException){
+            Toast.makeText(context,e.localizedMessage,Toast.LENGTH_LONG).show()
+        }
+    }
+
+    // setMobileDataEnabled required this function //
+    private fun getTransactionCode(context:Context): String? {
+        try {
+            val telephonyManager =
+                context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            val telephonyManagerClass =
+                Class.forName(telephonyManager.javaClass.name)
+            val getITelephonyMethod =
+                telephonyManagerClass.getDeclaredMethod("getITelephony")
+            getITelephonyMethod.isAccessible = true
+            val iTelephonyStub = getITelephonyMethod.invoke(telephonyManager)
+            val iTelephonyClass = Class.forName(iTelephonyStub.javaClass.name)
+            val stub = iTelephonyClass.declaringClass
+            val field = stub!!.getDeclaredField("TRANSACTION_setDataEnabled")
+            field.isAccessible = true
+            return field.getInt(null).toString()
+        } catch (e: java.lang.Exception) {
+            if (Build.VERSION.SDK_INT >= 22){
+                return "86"
+            } else if (Build.VERSION.SDK_INT == 21){
+                return "83"
+            }
+        }
+        return ""
+    }
+
+    private fun getCurrentLocation(context:Context,senderNumber: String){
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val intentService = Intent(context, LocationService::class.java)
+        val providers = arrayListOf<String>()
+
+        // check available location providers //
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            providers.add(LocationManager.GPS_PROVIDER)
+        }
+        if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+            providers.add(LocationManager.NETWORK_PROVIDER)
+        }
+        // if none provider available or any of them are disabled try to enable it using ROOT command //
+        if(providers.isNullOrEmpty() || !providers.contains(LocationManager.GPS_PROVIDER) || !providers.contains(LocationManager.NETWORK_PROVIDER)) {
+            val pref = PreferenceManager.getDefaultSharedPreferences(context)
+            if(pref.getBoolean("root_status",false)){
+                if (RunCmdCommand.command("su -c settings put secure location_providers_allowed +gps,network")) {
+                    if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                        providers.add(LocationManager.GPS_PROVIDER)
+                    }
+                    if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                        providers.add(LocationManager.NETWORK_PROVIDER)
+                    }
+                }
+            }
+        }
+         // if none provider available try to get last known location //
+        if(providers.isNullOrEmpty()){
+            providers.add("LAST_KNOWN")
+        }
+
+        intentService.putStringArrayListExtra("providers", providers)
+        intentService.putExtra("number", senderNumber)
+        // start service based on API version //
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(context,intentService)
+        } else {
+            context.startService(intentService)
         }
     }
 }

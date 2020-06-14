@@ -8,6 +8,16 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 
 class ForegroundNotification {
+    fun createNotification(context:Context, channelId:String, priority: Int,text:String?) : Notification{
+        val builder = createBuilder(context,channelId,priority).apply {
+            setSmallIcon(R.drawable.ic_mail)
+            setOngoing(true)
+            setContentText(text)
+            this.priority = priority
+        }
+        return builder.build()
+    }
+
     private fun createChannel(context:Context , channelId:String, importance:Int) {
         // Create the NotificationChannel, but only on API 26+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -27,14 +37,5 @@ class ForegroundNotification {
         } else {
             NotificationCompat.Builder(context, channelId)
         }
-    }
-
-    fun createNotification(context:Context, channelId:String, priority: Int) : Notification{
-        val builder = createBuilder(context,channelId,priority).apply {
-            setSmallIcon(R.drawable.ic_mail)
-            setOngoing(true)
-            this.priority = priority
-        }
-        return builder.build()
     }
 }

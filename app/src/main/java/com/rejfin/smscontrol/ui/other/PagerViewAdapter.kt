@@ -1,4 +1,4 @@
-package com.rejfin.smscontrol
+package com.rejfin.smscontrol.ui.other
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
