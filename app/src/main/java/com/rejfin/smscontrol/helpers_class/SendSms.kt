@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.telephony.SmsManager
 import android.widget.Toast
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 object SendSms {
     // function used to send sms //
@@ -21,6 +22,7 @@ object SendSms {
             }
         }catch(e:Exception){
             Toast.makeText(context,e.localizedMessage, Toast.LENGTH_LONG).show()
+            FirebaseCrashlytics.getInstance().recordException(e)
         }
     }
 }

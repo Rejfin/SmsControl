@@ -14,6 +14,7 @@ import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startForegroundService
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.rejfin.smscontrol.helpers_class.RunCmdCommand
 import com.rejfin.smscontrol.helpers_class.SendSms
 import com.rejfin.smscontrol.services.LocationService
@@ -123,6 +124,7 @@ class CommandManager {
                 wifiManager.isWifiEnabled = state
             } catch (e: Exception) {
                 Toast.makeText(context,e.localizedMessage,Toast.LENGTH_LONG).show()
+                FirebaseCrashlytics.getInstance().recordException(e)
             }
         }
     }
@@ -231,28 +233,26 @@ class CommandManager {
         SendSms.sendSms(context,message,senderNumber)
     }
 
-    private fun rebootPhone(context:Context){
-        CoroutineScope(Dispatchers.IO).launch {
-            launch {
-                // it's time for the phone to save the message as received, otherwise a boot loop may appear //
-                delay(3000)
-                if(!RunCmdCommand.command("su -c reboot now")){
-                    Toast.makeText(context,context.getString(R.string.unexpected_error),Toast.LENGTH_LONG).show()
-                }
+    private fun rebootPhone(context:Context) = runBlocking{
+        val job = launch(Dispatchers.IO) {
+            // it's time for the phone to save the message as received, otherwise a boot loop may appear //
+            delay(3000)
+            if(!runBlocking {RunCmdCommand.commandAsync("su -c reboot now").await()}){
+                Toast.makeText(context,context.getString(R.string.unexpected_error),Toast.LENGTH_LONG).show()
             }
         }
+        job.join()
     }
 
-    private fun shutdownPhone(context:Context){
-        CoroutineScope(Dispatchers.IO).launch {
-            launch {
-                // it's time for the phone to save the message as received, otherwise a boot loop may appear //
-                delay(3000)
-                if(!RunCmdCommand.command("su 0 -c reboot -p")){
-                    Toast.makeText(context,context.getString(R.string.unexpected_error),Toast.LENGTH_LONG).show()
-                }
+    private fun shutdownPhone(context:Context) = runBlocking{
+        val job = launch {
+            // it's time for the phone to save the message as received, otherwise a boot loop may appear //
+            delay(3000)
+            if(!RunCmdCommand.commandAsync("su 0 -c reboot -p").await()){
+                Toast.makeText(context,context.getString(R.string.unexpected_error),Toast.LENGTH_LONG).show()
             }
         }
+        job.join()
     }
 
     @SuppressLint("MissingPermission")
@@ -273,9 +273,10 @@ class CommandManager {
             command.append("i32 ")
             command.append(if (enable) "1" else "0")
             command.append("\n")
-            RunCmdCommand.command(command.toString())
+            runBlocking {RunCmdCommand.commandAsync(command.toString()).await()}
         }catch(e: IOException){
             Toast.makeText(context,e.localizedMessage,Toast.LENGTH_LONG).show()
+            FirebaseCrashlytics.getInstance().recordException(e)
         }
     }
 
@@ -321,7 +322,7 @@ class CommandManager {
         if(providers.isNullOrEmpty() || !providers.contains(LocationManager.GPS_PROVIDER) || !providers.contains(LocationManager.NETWORK_PROVIDER)) {
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
             if(pref.getBoolean("root_status",false)){
-                if (RunCmdCommand.command("su -c settings put secure location_providers_allowed +gps,network")) {
+                if (runBlocking {RunCmdCommand.commandAsync("su -c settings put secure location_providers_allowed +gps,network").await()}) {
                     if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                         providers.add(LocationManager.GPS_PROVIDER)
                     }
@@ -331,6 +332,7 @@ class CommandManager {
                 }
             }
         }
+
          // if none provider available try to get last known location //
         if(providers.isNullOrEmpty()){
             providers.add("LAST_KNOWN")

@@ -49,10 +49,12 @@ class HomeFragment : Fragment() {
         }
 
         // set view and receiver state when created //
-        if(isReceiverRunning(requireContext(),component!!)){
-            progress_wheel.progress = 1f
+        if(isReceiverRunning(requireContext(), component!!)){
+            progress_wheel.setInstantProgress(1f)
+            textView_status.visibility = View.VISIBLE
         }else{
-            progress_wheel.progress = 0f
+            progress_wheel.setInstantProgress(0f)
+            textView_status.visibility = View.INVISIBLE
         }
 
         // set listener when clicked //

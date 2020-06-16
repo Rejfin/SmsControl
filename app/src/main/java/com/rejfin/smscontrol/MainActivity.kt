@@ -1,5 +1,6 @@
 package com.rejfin.smscontrol
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -7,19 +8,30 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.rejfin.smscontrol.ui.CommandsFragment
 import com.rejfin.smscontrol.ui.HomeFragment
 import com.rejfin.smscontrol.ui.SettingsFragment
 import com.rejfin.smscontrol.ui.other.PagerViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(){
+    @SuppressLint("ApplySharedPref")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         PreferenceManager.setDefaultValues(this, R.xml.commands_preference, false)
         loadTheme()
+
+        // set userId for firebase crashlytics //
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        if(pref.getString("userId","") == ""){
+            val uuid = UUID.randomUUID()
+            FirebaseCrashlytics.getInstance().setUserId(uuid.toString())
+            pref.edit().putString("userId",uuid.toString()).commit()
+        }
 
         // set view pager for fragments//
         val adapter = PagerViewAdapter(

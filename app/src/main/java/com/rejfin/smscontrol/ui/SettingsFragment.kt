@@ -14,6 +14,7 @@ import androidx.preference.PreferenceManager
 import com.rejfin.smscontrol.BuildConfig
 import com.rejfin.smscontrol.R
 import com.rejfin.smscontrol.helpers_class.RunCmdCommand
+import kotlinx.coroutines.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -39,6 +40,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             intentEmail.data = Uri.parse("mailto:")
             intentEmail.putExtra(Intent.EXTRA_EMAIL, Array(1) { "rejfin.dev@gmail.com" })
             intentEmail.putExtra(Intent.EXTRA_SUBJECT, "Feedback - SMSControl v${BuildConfig.VERSION_NAME}")
+            intentEmail.putExtra(Intent.EXTRA_TEXT,"USER ID: ${pref.getString("userId","none")}")
             try {
                 startActivity(Intent.createChooser(intentEmail, "Send feedback"))
             } catch (e: ActivityNotFoundException) {
@@ -66,12 +68,19 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         // try to obtain root privilege //
         rootPref?.setOnPreferenceClickListener {
-            if(RunCmdCommand.command("su -c ls")){
-                it.summary = getString(R.string.root_granted)
-                pref.edit().putBoolean("root_status",true).apply()
-            }else{
-                it.summary = getString(R.string.root_denied)
-                pref.edit().putBoolean("root_status",false).apply()
+            CoroutineScope(Dispatchers.Main).launch{
+                var result = false
+                val x = async(Dispatchers.IO) {
+                    result = RunCmdCommand.commandAsync("su -c ls").await()
+                }
+                x.await()
+                if(result){
+                    it.summary = getString(R.string.root_granted)
+                    pref.edit().putBoolean("root_status",true).apply()
+                }else{
+                    it.summary = getString(R.string.root_denied)
+                    pref.edit().putBoolean("root_status",false).apply()
+                }
             }
             true
         }
