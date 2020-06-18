@@ -1,26 +1,34 @@
 package com.rejfin.smscontrol
 
 import android.annotation.SuppressLint
-import android.content.*
+import android.bluetooth.BluetoothAdapter
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.location.LocationManager
 import android.media.AudioManager
 import android.media.RingtoneManager
 import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Build
-import androidx.preference.PreferenceManager
 import android.provider.Telephony
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startForegroundService
+import androidx.preference.PreferenceManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.rejfin.smscontrol.helpers_class.RunCmdCommand
 import com.rejfin.smscontrol.helpers_class.SendSms
 import com.rejfin.smscontrol.services.LocationService
 import com.rejfin.smscontrol.services.PlayMusicService
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.io.IOException
+
 
 class CommandManager {
     fun manage(context: Context, intent: Intent?){
@@ -109,6 +117,16 @@ class CommandManager {
                 pref.getString("shutdown", null) -> {
                     if(pref.getBoolean("shutdown_state",false)) {
                         shutdownPhone(context)
+                    }
+                }
+                pref.getString("bluetooth_on", null) -> {
+                    if(pref.getBoolean("bluetooth_on_state",false)) {
+                        bluetoothSetState(true)
+                    }
+                }
+                pref.getString("bluetooth_off", null) -> {
+                    if(pref.getBoolean("bluetooth_off_state",false)) {
+                        bluetoothSetState(false)
                     }
                 }
             }
@@ -345,6 +363,15 @@ class CommandManager {
             startForegroundService(context,intentService)
         } else {
             context.startService(intentService)
+        }
+    }
+
+    private fun bluetoothSetState(state:Boolean){
+        val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        if (state) {
+            mBluetoothAdapter.enable()
+        }else{
+            mBluetoothAdapter.disable()
         }
     }
 }

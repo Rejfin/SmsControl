@@ -29,19 +29,19 @@
         </PreferenceCategory>
 
         <PreferenceCategory
-            android:title="@string/mobile_data_category"
+            android:title="@string/bluetooth_category"
             app:iconSpaceReserved="false">
             <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
-                android:key="mobile_data_on"
-                app:defaultValue="mobileDataOn"
-                android:title="@string/mobile_data_on"
+                android:key="bluetooth_on"
+                app:defaultValue="bluetoothOn"
+                android:title="@string/bluetooth_on"
                 app:iconSpaceReserved="false"
                 android:layout="@layout/preference_command_layout"
                 app:useSimpleSummaryProvider="true"/>
             <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
-                android:key="mobile_data_off"
-                app:defaultValue="mobileDataOff"
-                android:title="@string/mobile_data_off"
+                android:key="bluetooth_off"
+                app:defaultValue="bluetoothOff"
+                android:title="@string/bluetooth_off"
                 app:iconSpaceReserved="false"
                 android:layout="@layout/preference_command_layout"
                 app:useSimpleSummaryProvider="true"/>
@@ -119,20 +119,43 @@
         <PreferenceCategory
             android:title="@string/root_category"
             app:iconSpaceReserved="false">
-            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
-                android:key="restart"
-                app:defaultValue="restart"
-                android:title="@string/restart"
-                app:iconSpaceReserved="false"
-                android:layout="@layout/preference_command_layout"
-                app:useSimpleSummaryProvider="true"/>
-            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
-                android:key="shutdown"
-                app:defaultValue="shutdown"
-                android:title="@string/shutdown"
-                app:iconSpaceReserved="false"
-                android:layout="@layout/preference_command_layout"
-                app:useSimpleSummaryProvider="true"/>
+            <PreferenceCategory
+                android:title="@string/mobile_data_category"
+                app:iconSpaceReserved="false">
+                <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
+                    android:key="mobile_data_on"
+                    app:defaultValue="mobileDataOn"
+                    android:title="@string/mobile_data_on"
+                    app:iconSpaceReserved="false"
+                    android:layout="@layout/preference_command_layout"
+                    app:useSimpleSummaryProvider="true"/>
+                <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
+                    android:key="mobile_data_off"
+                    app:defaultValue="mobileDataOff"
+                    android:title="@string/mobile_data_off"
+                    app:iconSpaceReserved="false"
+                    android:layout="@layout/preference_command_layout"
+                    app:useSimpleSummaryProvider="true"/>
+            </PreferenceCategory>
+
+            <PreferenceCategory
+                android:title="@string/other_category"
+                app:iconSpaceReserved="false">
+                <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
+                    android:key="restart"
+                    app:defaultValue="restart"
+                    android:title="@string/restart"
+                    app:iconSpaceReserved="false"
+                    android:layout="@layout/preference_command_layout"
+                    app:useSimpleSummaryProvider="true"/>
+                <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
+                    android:key="shutdown"
+                    app:defaultValue="shutdown"
+                    android:title="@string/shutdown"
+                    app:iconSpaceReserved="false"
+                    android:layout="@layout/preference_command_layout"
+                    app:useSimpleSummaryProvider="true"/>
+            </PreferenceCategory>
         </PreferenceCategory>
     </PreferenceCategory>
 </PreferenceScreen>
