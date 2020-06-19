@@ -166,6 +166,21 @@ class CommandsFragment : PreferenceFragmentCompat(),
                 }
             }
         })
+
+        val getInfoPref = preferenceManager.findPreference<CustomPreferenceItem>("get_info")
+        getInfoPref?.setStateChangeListener(object : CustomPreferenceItem.OnStateChangeEventListener{
+            override fun onStateChange() {
+                if((ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED)){
+                    askForPermission(
+                        6,
+                        arrayOf(Manifest.permission.SEND_SMS),
+                        getString(R.string.send_sms_get_info)
+                    )
+                    getInfoPref.setState(false)
+                }
+            }
+
+        })
     }
 
     // function show dialog about the need for root //
@@ -211,12 +226,18 @@ class CommandsFragment : PreferenceFragmentCompat(),
                 }
             }
             // sms request code //
-            4 ->{
+            4,6 ->{
                 if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    preferenceManager.findPreference<CustomPreferenceItem>("command_list")?.setState(true)
+                    if(requestCode == 4){
+                        preferenceManager.findPreference<CustomPreferenceItem>("command_list")?.setState(true)
+                    }else if (requestCode == 6){
+                        preferenceManager.findPreference<CustomPreferenceItem>("get_info")?.setState(true)
+                    }
+
                 }else{
                     showDeniedMessage()
                     preferenceManager.findPreference<CustomPreferenceItem>("command_list")?.setState(false)
+                    preferenceManager.findPreference<CustomPreferenceItem>("get_info")?.setState(false)
                 }
             }
             // location request code //

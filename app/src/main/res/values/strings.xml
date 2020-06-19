@@ -13,11 +13,11 @@
     <string name="home">Home</string>
     <string name="settings">Settings</string>
     <string name="wifi_category">WiFi</string>
-    <string name="wifi_state_on">Set WiFi state On</string>
-    <string name="wifi_state_off">Set wifi state Off</string>
+    <string name="wifi_state_on">Set WiFi On</string>
+    <string name="wifi_state_off">Set wifi Off</string>
     <string name="mobile_data_category">Mobile Data</string>
-    <string name="mobile_data_on">Set mobile data On</string>
-    <string name="mobile_data_off">Set mobile data Off</string>
+    <string name="mobile_data_on">Set mobile On</string>
+    <string name="mobile_data_off">Set mobile Off</string>
     <string name="sound_category">Sound</string>
     <string name="sound_on">Set sound volume to 100%</string>
     <string name="sound_off">Set sound volume to 0%</string>
@@ -50,15 +50,20 @@
     <string name="unexpected_error">Unexpected error occurred</string>
     <string name="mobile_data_permission_info">In order for this application to work, you must grant permission to read phone state</string>
     <string name="permission_denied">This command will not work until you grant permissions</string>
-    <string name="send_sms_info">This command requires SEND SMS privileges. Permission will be used to send the list of commands to the sender\'s number</string>
+    <string name="send_sms_info">This command requires SEND SMS privileges.\nPermission will be used to send the list of commands to the sender\'s number</string>
+    <string name="send_sms_get_info">This command requires SEND SMS privileges.\nPermission will be used to send information about phone to the sender\'s number</string>
     <string name="location_permission_info">This command require LOCATION permission to get your phone location.
         \nFor this command to perform its task, you must have location enabled!!
         \n\nIf you grant ROOT access, it will try to turn your GPS on and get your localization even if it\'s disabled.
-        \n\nIf all the above options are not available, the last known location will be taken</string>
+        \n\nIf all the above options are not available, the last known location will be taken (if available)</string>
     <string name="getting_location">Getting localization…</string>
     <string name="playing_music">Playing music…</string>
     <string name="location_not_available">The location could not be determined</string>
     <string name="bluetooth_category">Bluetooth</string>
-    <string name="bluetooth_on">Set Bluetooth state On</string>
+    <string name="bluetooth_on">Set Bluetooth On</string>
     <string name="bluetooth_off">Set Bluetooth Off</string>
+    <string name="sync_category">Synchronization</string>
+    <string name="sync_on">Set synchronization On</string>
+    <string name="sync_off">Set synchronization Off</string>
+    <string name="get_info">Get information about phone</string>
 </resources>

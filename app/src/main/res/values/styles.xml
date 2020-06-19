@@ -11,18 +11,18 @@
 
     <!-- Style used in Alert Dialog -->
     <style name="AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="buttonBarPositiveButtonStyle">@style/ButtonForDialogConfirm</item>
-        <item name="buttonBarNegativeButtonStyle">@style/ButtonForDialogCancel</item>
-        <item name="buttonBarNeutralButtonStyle">@style/ButtonForDialogConfirm</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonForDialog</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonForDialog</item>
+        <item name="buttonBarNeutralButtonStyle">@style/PositiveButtonForDialog</item>
         <item name="materialAlertDialogBodyTextStyle">@style/AlertDialogTextStyle</item>
     </style>
 
     <!-- button color used in Alert Dialog -->
-    <style name="ButtonForDialogConfirm" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+    <style name="PositiveButtonForDialog" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/colorButtonConfirm</item>
     </style>
 
-    <style name="ButtonForDialogCancel" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+    <style name="NegativeButtonForDialog" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/colorButtonCancel</item>
     </style>
 
@@ -33,8 +33,8 @@
 
     <!-- style for preference list -->
     <style name="MyPreferenceDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
-        <item name="buttonBarNegativeButtonStyle">@style/ButtonForDialogConfirm</item>
-        <item name="titleTextColor">@color/colorPrimary</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonForDialog</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonForDialog</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 

@@ -2,16 +2,16 @@ package com.rejfin.smscontrol
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.location.LocationManager
 import android.media.AudioManager
 import android.media.RingtoneManager
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.net.wifi.WifiManager
+import android.os.BatteryManager
 import android.os.Build
+import android.os.PowerManager
 import android.provider.Telephony
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
@@ -28,6 +28,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
+import java.lang.reflect.Method
 
 
 class CommandManager {
@@ -127,6 +128,21 @@ class CommandManager {
                 pref.getString("bluetooth_off", null) -> {
                     if(pref.getBoolean("bluetooth_off_state",false)) {
                         bluetoothSetState(false)
+                    }
+                }
+                pref.getString("sync_on",null) -> {
+                    if(pref.getBoolean("sync_on_state",false)){
+                        ContentResolver.setMasterSyncAutomatically(true)
+                    }
+                }
+                pref.getString("sync_off",null) -> {
+                    if(pref.getBoolean("sync_off_state",false)){
+                        ContentResolver.setMasterSyncAutomatically(false)
+                    }
+                }
+                pref.getString("get_info",null)->{
+                    if(pref.getBoolean("get_info_state",false)){
+                        SendSms.sendSms(context,getInfo(context),senderNumber!!)
                     }
                 }
             }
@@ -367,11 +383,105 @@ class CommandManager {
     }
 
     private fun bluetoothSetState(state:Boolean){
-        val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         if (state) {
-            mBluetoothAdapter.enable()
+            bluetoothAdapter.enable()
         }else{
-            mBluetoothAdapter.disable()
+            bluetoothAdapter.disable()
         }
+    }
+
+    private fun getInfo(context: Context):String{
+        var message: String
+        //WIFI
+        val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiState = if(wifiManager.isWifiEnabled){
+            "on"
+        }else{
+            "off"
+        }
+        message = "Wifi: $wifiState"
+        if(wifiManager.isWifiEnabled){
+            val wifiSSID = wifiManager.connectionInfo.ssid
+            message += "\nSSID: $wifiSSID"
+        }
+
+        //mobileData
+        var mobileDataState: Boolean?
+        val cm =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        try {
+            val cmClass = Class.forName(cm!!.javaClass.name)
+            val method: Method = cmClass.getDeclaredMethod("getMobileDataEnabled")
+            method.isAccessible = true
+            mobileDataState = method.invoke(cm) as Boolean
+        } catch (e: java.lang.Exception) {
+            mobileDataState = null
+        }
+
+        val mobileenabled = if(mobileDataState!= null && mobileDataState){
+            "on"
+        }else{
+            "off"
+        }
+        message += "\nMobileData: $mobileenabled"
+
+        //bluetooth
+        val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        val bluetoothState = if(bluetoothAdapter.isEnabled){
+            "on"
+        }else{
+            "off"
+        }
+        message += "\nBluetooth: $bluetoothState"
+
+        //sync
+        val syncState = if(ContentResolver.getMasterSyncAutomatically()){
+            "on"
+        }else{
+            "off"
+        }
+        message += "\nSync: $syncState"
+
+        //battery
+        val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+        val batteryLevel = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+
+        val intent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val plugged = intent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
+        val batteryState = if(plugged == BatteryManager.BATTERY_PLUGGED_AC ||
+            plugged == BatteryManager.BATTERY_PLUGGED_USB ||
+            plugged == BatteryManager.BATTERY_PLUGGED_WIRELESS){
+            "charging"
+        }else{
+            "unplugged"
+        }
+
+        message += "\nBattery: $batteryLevel%, $batteryState"
+
+        //location
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val gpsState = if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            "on"
+        }else{
+            "off"
+        }
+        val networkState = if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+            "on"
+        }else{
+            "off"
+        }
+       message += "\nLocation:\n-GPS: $gpsState\n-Network: $networkState"
+
+        //battery saver
+        val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+        val batterySaverState = if(powerManager.isPowerSaveMode){
+            "on"
+        }else{
+            "off"
+        }
+        message += "\nPower saver: $batterySaverState"
+
+        return message
     }
 }

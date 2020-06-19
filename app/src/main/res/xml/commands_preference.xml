@@ -85,12 +85,38 @@
         </PreferenceCategory>
 
         <PreferenceCategory
+            android:title="@string/sync_category"
+            app:iconSpaceReserved="false">
+            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
+                android:key="sync_on"
+                app:defaultValue="syncOn"
+                android:title="@string/sync_on"
+                app:iconSpaceReserved="false"
+                android:layout="@layout/preference_command_layout"
+                app:useSimpleSummaryProvider="true"/>
+            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
+                android:key="sync_off"
+                app:defaultValue="syncOff"
+                android:title="@string/sync_off"
+                app:iconSpaceReserved="false"
+                android:layout="@layout/preference_command_layout"
+                app:useSimpleSummaryProvider="true"/>
+        </PreferenceCategory>
+
+        <PreferenceCategory
             android:title="@string/other_category"
             app:iconSpaceReserved="false">
             <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
                 android:key="command_list"
                 app:defaultValue="commandList"
                 android:title="@string/command_list"
+                app:iconSpaceReserved="false"
+                android:layout="@layout/preference_command_layout"
+                app:useSimpleSummaryProvider="true"/>
+            <com.rejfin.smscontrol.ui.other.CustomPreferenceItem
+                android:key="get_info"
+                app:defaultValue="getInfo"
+                android:title="@string/get_info"
                 app:iconSpaceReserved="false"
                 android:layout="@layout/preference_command_layout"
                 app:useSimpleSummaryProvider="true"/>
