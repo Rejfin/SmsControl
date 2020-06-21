@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.rejfin.smscontrol.helpers_class.LogManager
 import com.rejfin.smscontrol.ui.CommandsFragment
 import com.rejfin.smscontrol.ui.HomeFragment
 import com.rejfin.smscontrol.ui.SettingsFragment

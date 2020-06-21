@@ -24,6 +24,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val aboutPref = findPreference<Preference>("about")
         val feedbackPref = findPreference<Preference>("feedback")
         val rootPref = findPreference<Preference>("root_status")
+        val logPref = findPreference<Preference>("check_log")
 
         // set summary in 'About' and 'Root' preferences //
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -63,6 +64,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                 }
             }
+            true
+        }
+
+        // check log //
+        logPref?.setOnPreferenceClickListener {
+            LogDataDialog().showDialog(parentFragmentManager)
             true
         }
 

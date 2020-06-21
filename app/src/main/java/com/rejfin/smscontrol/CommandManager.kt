@@ -19,6 +19,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.startForegroundService
 import androidx.preference.PreferenceManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.rejfin.smscontrol.helpers_class.LogManager
 import com.rejfin.smscontrol.helpers_class.RunCmdCommand
 import com.rejfin.smscontrol.helpers_class.SendSms
 import com.rejfin.smscontrol.services.LocationService
@@ -38,17 +39,18 @@ class CommandManager {
         val messageBody = message[0].messageBody
         val senderNumber = message[0].originatingAddress
 
-        var messageSecurityCode = ""
-        var messageCommand = ""
+        val messageSecurityCode: String
+        val messageCommand: String
         try{
             messageSecurityCode = messageBody.split(" ")[0].substringAfter("@")
             messageCommand = messageBody.split(" ")[1]
         }catch (e:IndexOutOfBoundsException){
-            println("WRONG MESSAGE FORMAT")
+            LogManager.saveToLog("[INFO] Usual sms",context)
+            return
         }
 
-        // TODO replace println with function to write log to file //
         if(pref.getString("security_code",null) == messageSecurityCode && messageBody[0] == '@'){
+            LogManager.saveToLog("[INFO] Command: $messageCommand",context)
             when(messageCommand){
                 pref.getString("wifi_on", null) -> {
                     if(pref.getBoolean("wifi_on_state",false)){
@@ -91,7 +93,7 @@ class CommandManager {
                         try {
                             setSoundLevel(context, messageBody.split(" ")[2].toIntOrNull())
                         }catch (e:IndexOutOfBoundsException) {
-                            println("WRONG MESSAGE FORMAT, NO VOLUME ARGUMENT")
+                            LogManager.saveToLog("[ERROR] Wrong message format, no volume argument",context)
                         }
                     }
                 }
@@ -145,7 +147,12 @@ class CommandManager {
                         SendSms.sendSms(context,getInfo(context),senderNumber!!)
                     }
                 }
+                else ->{
+                    LogManager.saveToLog("[INFO] Unknown command: $messageCommand",context)
+                }
             }
+        }else{
+            LogManager.saveToLog("[ERROR] Wrong security code: $messageSecurityCode",context)
         }
     }
 

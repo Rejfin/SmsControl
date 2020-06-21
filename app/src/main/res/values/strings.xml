@@ -66,4 +66,9 @@
     <string name="sync_on">Set synchronization On</string>
     <string name="sync_off">Set synchronization Off</string>
     <string name="get_info">Get information about phone</string>
+    <string name="log">Logs</string>
+    <string name="log_summary">Check log from received message</string>
+    <string name="clear_logs">Clear logs</string>
+    <string name="empty_log_file">EMPTY LOG FILE</string>
+    <string name="error_read_logs">"ERROR, I CANT READ LOG FILE :/"</string>
 </resources>

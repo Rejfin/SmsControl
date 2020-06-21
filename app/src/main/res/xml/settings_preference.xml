@@ -31,6 +31,12 @@
         app:iconSpaceReserved="false">
 
         <Preference
+            android:icon="@drawable/ic_log"
+            android:key="check_log"
+            android:title="@string/log"
+            android:summary="@string/log_summary"/>
+
+        <Preference
             android:id="@+id/feedback_settings"
             android:icon="@drawable/ic_feedback"
             android:summary="@string/feedback_summary"
