@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.rejfin.smscontrol.helpers_class.LogManager
 import com.rejfin.smscontrol.ui.CommandsFragment
 import com.rejfin.smscontrol.ui.HomeFragment
 import com.rejfin.smscontrol.ui.SettingsFragment
@@ -19,6 +18,8 @@ import java.util.*
 
 
 class MainActivity : AppCompatActivity(){
+    private val adapter = PagerViewAdapter(supportFragmentManager)
+
     @SuppressLint("ApplySharedPref")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +36,6 @@ class MainActivity : AppCompatActivity(){
         }
 
         // set view pager for fragments//
-        val adapter = PagerViewAdapter(
-            supportFragmentManager
-        )
         adapter.addFragment(HomeFragment(),resources.getString(R.string.home))
         adapter.addFragment(CommandsFragment(),resources.getString(R.string.commands))
         adapter.addFragment(SettingsFragment(),resources.getString(R.string.settings))

@@ -6,7 +6,5 @@
     <color name="colorButtonConfirm">#19BD20</color>
     <color name="colorButtonCancel">#D63A3A</color>
     <color name="primaryTextColor">#DFFFFFFF</color>
-    <color name="transparent">#00FFFFFF</color>
-    <color name="drawableColor">#E8E6E6</color>
     <color name="bottomNavigationItemUncheck">#FFFFFF</color>
 </resources>

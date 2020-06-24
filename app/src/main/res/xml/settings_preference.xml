@@ -10,7 +10,6 @@
             android:title="@string/dark_mode"
             android:defaultValue="Default"
             android:summary="@string/dark_mode_summary"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory

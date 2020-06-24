@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.text.HtmlCompat
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -30,9 +31,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
         aboutPref?.summary = "SmsControl v${BuildConfig.VERSION_NAME} by Rejfin"
         rootPref?.summary = if (pref.getBoolean("root_status",false)){
-            getString(R.string.root_granted)
+            HtmlCompat.fromHtml(
+                "<font color=#007806>${getString(R.string.root_granted)}</font>",
+                HtmlCompat.FROM_HTML_MODE_LEGACY
+            )
         }else{
-            getString(R.string.root_denied)
+            HtmlCompat.fromHtml(
+                "<font color='red'>${getString(R.string.root_denied)}</font>",
+                HtmlCompat.FROM_HTML_MODE_LEGACY
+            )
         }
 
         // set feedback listener, create chooser intent //
@@ -82,10 +89,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 }
                 x.await()
                 if(result){
-                    it.summary = getString(R.string.root_granted)
+                    it.summary = HtmlCompat.fromHtml(
+                        "<font color=#007806>${getString(R.string.root_granted)}</font>",
+                        HtmlCompat.FROM_HTML_MODE_LEGACY
+                    )
                     pref.edit().putBoolean("root_status",true).apply()
                 }else{
-                    it.summary = getString(R.string.root_denied)
+                    it.summary = HtmlCompat.fromHtml(
+                        "<font color='red'>${getString(R.string.root_denied)}</font>",
+                        HtmlCompat.FROM_HTML_MODE_LEGACY
+                    )
                     pref.edit().putBoolean("root_status",false).apply()
                 }
             }
@@ -101,10 +114,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val entries:Array<String>
         val entryValue:Array<String>
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P){
-            entries = arrayOf("Dark","Light","Set by Battery Saver")
+            entries = arrayOf(getString(R.string.dark),getString(R.string.light),getString(R.string.power_saver))
             entryValue = arrayOf("Dark","Light","Default")
         }else{
-            entries = arrayOf("Dark","Light","System default")
+            entries = arrayOf(getString(R.string.dark),getString(R.string.light),getString(R.string.system_default))
             entryValue = arrayOf("Dark","Light","Default")
         }
         darkModePref.entries = entries

@@ -6,6 +6,12 @@
         android:title="@string/security_code"
         app:iconSpaceReserved="false"
         app:defaultValue="1234" />
+    <Preference
+        android:key="blacklist"
+        android:title="@string/blacklist"
+        android:summary="@string/blacklist_summary"
+        app:iconSpaceReserved="false"/>
+
     <PreferenceCategory
         android:title="@string/commands"
         app:iconSpaceReserved="false">

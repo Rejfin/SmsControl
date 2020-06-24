@@ -13,6 +13,7 @@ import android.os.BatteryManager
 import android.os.Build
 import android.os.PowerManager
 import android.provider.Telephony
+import android.telephony.PhoneNumberUtils
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import android.widget.Toast
@@ -41,118 +42,136 @@ class CommandManager {
 
         val messageSecurityCode: String
         val messageCommand: String
+
         try{
             messageSecurityCode = messageBody.split(" ")[0].substringAfter("@")
             messageCommand = messageBody.split(" ")[1]
         }catch (e:IndexOutOfBoundsException){
-            LogManager.saveToLog("[INFO] Usual sms",context)
             return
         }
 
-        if(pref.getString("security_code",null) == messageSecurityCode && messageBody[0] == '@'){
-            LogManager.saveToLog("[INFO] Command: $messageCommand",context)
-            when(messageCommand){
-                pref.getString("wifi_on", null) -> {
-                    if(pref.getBoolean("wifi_on_state",false)){
-                        setWifiState(context,true)
-                    }
-                }
-                pref.getString("wifi_off", null) -> {
-                    if(pref.getBoolean("wifi_off_state",false)){
-                        setWifiState(context,false)
-                    }
-                }
-                pref.getString("mobile_data_on", null) -> {
-                    if(pref.getBoolean("mobile_data_on_state",false)) {
-                        setMobileDataEnabled(context, true)
-                    }
-                }
-                pref.getString("mobile_data_off", null) -> {
-                    if(pref.getBoolean("mobile_data_off_state",false)) {
-                        setMobileDataEnabled(context, false)
-                    }
-                }
-                pref.getString("sound_on", null) -> {
-                    if(pref.getBoolean("sound_on_state",false)) {
-                        setSoundLevel(context, 100)
-                    }
-                }
-                pref.getString("sound_off", null) -> {
-                    if(pref.getBoolean("sound_off_state",false)) {
-                        setSoundLevel(context, 0)
-                    }
-                }
-                pref.getString("sound_play", null) -> {
-                    if(pref.getBoolean("sound_play_state",false)) {
-                        playSound(context, pref)
-                    }
-                }
-                pref.getString("sound_level",null) -> {
-                    if(pref.getBoolean("sound_level_state",false)) {
-                        // check if argument exist //
-                        try {
-                            setSoundLevel(context, messageBody.split(" ")[2].toIntOrNull())
-                        }catch (e:IndexOutOfBoundsException) {
-                            LogManager.saveToLog("[ERROR] Wrong message format, no volume argument",context)
-                        }
-                    }
-                }
-                pref.getString("run_app", null) -> {
-                    if(pref.getBoolean("run_app_state",false)) {
-                        runSelectedApp(context, pref)
-                    }
-                }
-                pref.getString("command_list", null) -> {
-                    if(pref.getBoolean("command_list_state",false)) {
-                        sendCommandList(context,pref,senderNumber!!)
-                    }
-                }
-                pref.getString("location", null) -> {
-                    if(pref.getBoolean("location_state",false)) {
-                        getCurrentLocation(context,senderNumber!!)
-                    }
-                }
-                pref.getString("restart", null) -> {
-                    if(pref.getBoolean("restart_state",false)) {
-                        rebootPhone(context)
-                    }
-                }
-                pref.getString("shutdown", null) -> {
-                    if(pref.getBoolean("shutdown_state",false)) {
-                        shutdownPhone(context)
-                    }
-                }
-                pref.getString("bluetooth_on", null) -> {
-                    if(pref.getBoolean("bluetooth_on_state",false)) {
-                        bluetoothSetState(true)
-                    }
-                }
-                pref.getString("bluetooth_off", null) -> {
-                    if(pref.getBoolean("bluetooth_off_state",false)) {
-                        bluetoothSetState(false)
-                    }
-                }
-                pref.getString("sync_on",null) -> {
-                    if(pref.getBoolean("sync_on_state",false)){
-                        ContentResolver.setMasterSyncAutomatically(true)
-                    }
-                }
-                pref.getString("sync_off",null) -> {
-                    if(pref.getBoolean("sync_off_state",false)){
-                        ContentResolver.setMasterSyncAutomatically(false)
-                    }
-                }
-                pref.getString("get_info",null)->{
-                    if(pref.getBoolean("get_info_state",false)){
-                        SendSms.sendSms(context,getInfo(context),senderNumber!!)
-                    }
-                }
-                else ->{
-                    LogManager.saveToLog("[INFO] Unknown command: $messageCommand",context)
+        // check blacklist //
+        val blacklist = pref.getStringSet("blacklist",null)
+        val isOnBlacklist = if(blacklist != null){
+            var isBlacklisted = false
+            blacklist.forEach {
+                if(PhoneNumberUtils.compare(it.split(Regex(","))[1],senderNumber)){
+                    isBlacklisted = true
                 }
             }
+            isBlacklisted
         }else{
-            LogManager.saveToLog("[ERROR] Wrong security code: $messageSecurityCode",context)
+            false
+        }
+
+        if(!isOnBlacklist){
+            if(pref.getString("security_code",null) == messageSecurityCode && messageBody[0] == '@'){
+                LogManager.saveToLog("[INFO] Command: $messageCommand",context)
+                when(messageCommand){
+                    pref.getString("wifi_on", null) -> {
+                        if(pref.getBoolean("wifi_on_state",false)){
+                            setWifiState(context,true)
+                        }
+                    }
+                    pref.getString("wifi_off", null) -> {
+                        if(pref.getBoolean("wifi_off_state",false)){
+                            setWifiState(context,false)
+                        }
+                    }
+                    pref.getString("mobile_data_on", null) -> {
+                        if(pref.getBoolean("mobile_data_on_state",false)) {
+                            setMobileDataEnabled(context, true)
+                        }
+                    }
+                    pref.getString("mobile_data_off", null) -> {
+                        if(pref.getBoolean("mobile_data_off_state",false)) {
+                            setMobileDataEnabled(context, false)
+                        }
+                    }
+                    pref.getString("sound_on", null) -> {
+                        if(pref.getBoolean("sound_on_state",false)) {
+                            setSoundLevel(context, 100)
+                        }
+                    }
+                    pref.getString("sound_off", null) -> {
+                        if(pref.getBoolean("sound_off_state",false)) {
+                            setSoundLevel(context, 0)
+                        }
+                    }
+                    pref.getString("sound_play", null) -> {
+                        if(pref.getBoolean("sound_play_state",false)) {
+                            playSound(context, pref)
+                        }
+                    }
+                    pref.getString("sound_level",null) -> {
+                        if(pref.getBoolean("sound_level_state",false)) {
+                            // check if argument exist //
+                            try {
+                                setSoundLevel(context, messageBody.split(" ")[2].toIntOrNull())
+                            }catch (e:IndexOutOfBoundsException) {
+                                LogManager.saveToLog("[ERROR] Wrong message format, no volume argument",context)
+                            }
+                        }
+                    }
+                    pref.getString("run_app", null) -> {
+                        if(pref.getBoolean("run_app_state",false)) {
+                            runSelectedApp(context, pref)
+                        }
+                    }
+                    pref.getString("command_list", null) -> {
+                        if(pref.getBoolean("command_list_state",false)) {
+                            sendCommandList(context,pref,senderNumber!!)
+                        }
+                    }
+                    pref.getString("location", null) -> {
+                        if(pref.getBoolean("location_state",false)) {
+                            getCurrentLocation(context,senderNumber!!)
+                        }
+                    }
+                    pref.getString("restart", null) -> {
+                        if(pref.getBoolean("restart_state",false)) {
+                            rebootPhone(context)
+                        }
+                    }
+                    pref.getString("shutdown", null) -> {
+                        if(pref.getBoolean("shutdown_state",false)) {
+                            shutdownPhone(context)
+                        }
+                    }
+                    pref.getString("bluetooth_on", null) -> {
+                        if(pref.getBoolean("bluetooth_on_state",false)) {
+                            bluetoothSetState(true)
+                        }
+                    }
+                    pref.getString("bluetooth_off", null) -> {
+                        if(pref.getBoolean("bluetooth_off_state",false)) {
+                            bluetoothSetState(false)
+                        }
+                    }
+                    pref.getString("sync_on",null) -> {
+                        if(pref.getBoolean("sync_on_state",false)){
+                            ContentResolver.setMasterSyncAutomatically(true)
+                        }
+                    }
+                    pref.getString("sync_off",null) -> {
+                        if(pref.getBoolean("sync_off_state",false)){
+                            ContentResolver.setMasterSyncAutomatically(false)
+                        }
+                    }
+                    pref.getString("get_info",null)->{
+                        if(pref.getBoolean("get_info_state",false)){
+                            SendSms.sendSms(context,getInfo(context),senderNumber!!)
+                        }
+                    }
+                    else ->{
+                        LogManager.saveToLog("[INFO] Unknown command: $messageCommand",context)
+                    }
+                }
+            }else{
+                LogManager.saveToLog("[ERROR] Wrong security code: $messageSecurityCode",context)
+            }
+        }else{
+            LogManager.saveToLog("[INFO] Message from the number ($senderNumber) that is on the blacklist",context)
         }
     }
 

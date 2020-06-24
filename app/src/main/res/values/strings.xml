@@ -34,6 +34,7 @@
     <string name="location">Current location</string>
     <string name="sms_control_status">SmsControl runs in the background</string>
     <string name="ok">OK</string>
+    <string name="yes">Yes</string>
     <string name="understand">I understand</string>
     <string name="cancel">Cancel</string>
     <string name="sms_permission_info">In order for this application to work, you must grant permission to receive and read sms messages</string>
@@ -71,4 +72,15 @@
     <string name="clear_logs">Clear logs</string>
     <string name="empty_log_file">EMPTY LOG FILE</string>
     <string name="error_read_logs">"ERROR, I CANT READ LOG FILE :/"</string>
+    <string name="dark">Dark</string>
+    <string name="light">Light</string>
+    <string name="power_saver">Set by Battery Saver</string>
+    <string name="system_default">System default</string>
+    <string name="blacklist">Blacklist</string>
+    <string name="blacklist_summary">List of numbers from which messages will be ignored</string>
+    <string name="warn_message_blacklist">Are you sure you want to delete \'%1$s\' number from blacklist?</string>
+    <string name="name">Name</string>
+    <string name="number">Number</string>
+    <string name="add">Add</string>
+    <string name="cant_be_empty">Field can\'t be empty</string>
 </resources>

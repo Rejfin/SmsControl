@@ -18,11 +18,11 @@ class LogDataDialog : DialogFragment() {
 
     private lateinit var toolbar:Toolbar
     private lateinit var tvLogs:TextView
-    private val TAG:String = "DIALOG_LOGS"
+    private val myTAG:String = "DIALOG_LOGS"
 
     fun showDialog(fm:FragmentManager):LogDataDialog{
         val logDataDialog = LogDataDialog()
-        logDataDialog.show(fm,TAG)
+        logDataDialog.show(fm,myTAG)
         return logDataDialog
     }
 
@@ -53,9 +53,9 @@ class LogDataDialog : DialogFragment() {
             dismiss()
         }
         toolbar.title = getString(R.string.log)
-        toolbar.inflateMenu(R.menu.dialog_menu_logs)
+        toolbar.inflateMenu(R.menu.dialog_menu_logs_blacklist)
         toolbar.setOnMenuItemClickListener {
-            if(it.itemId == R.id.clear_logs){
+            if(it.itemId == R.id.item_one){
                 if(LogManager.clearLogs(requireContext())){
                     tvLogs.text = getString(R.string.empty_log_file)
                 }

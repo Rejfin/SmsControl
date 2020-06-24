@@ -167,6 +167,7 @@ class CommandsFragment : PreferenceFragmentCompat(),
             }
         })
 
+        // check if 'getInfo' command have send sms permission //
         val getInfoPref = preferenceManager.findPreference<CustomPreferenceItem>("get_info")
         getInfoPref?.setStateChangeListener(object : CustomPreferenceItem.OnStateChangeEventListener{
             override fun onStateChange() {
@@ -179,8 +180,13 @@ class CommandsFragment : PreferenceFragmentCompat(),
                     getInfoPref.setState(false)
                 }
             }
-
         })
+
+        val blacklist = preferenceManager.findPreference<Preference>("blacklist")
+        blacklist?.setOnPreferenceClickListener {
+            BlacklistDialog().showDialog(parentFragmentManager)
+            true
+        }
     }
 
     // function show dialog about the need for root //
