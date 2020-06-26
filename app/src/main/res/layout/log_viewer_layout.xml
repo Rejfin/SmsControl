@@ -13,11 +13,12 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:paddingEnd="16dp"
             android:paddingStart="6dp"
-            app:titleTextColor="@color/primaryTextColor"
+            android:paddingEnd="16dp"
             app:contentInsetStartWithNavigation="0dp"
-            app:navigationIcon="@drawable/ic_close" />
+            app:navigationIcon="@drawable/ic_close"
+            app:title="@string/log"
+            app:titleTextColor="@color/primaryTextColor" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/help_item"
+        android:title="@string/help"
+        android:icon="@drawable/ic_help"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/item_one"
         android:title="@string/clear_logs"
         android:icon="@drawable/ic_delete"

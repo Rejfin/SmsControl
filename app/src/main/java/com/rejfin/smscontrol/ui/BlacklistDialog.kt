@@ -112,6 +112,13 @@ class BlacklistDialog : DialogFragment() {
                     }
                 }
                 dialog.show()
+            }else if(it.itemId == R.id.help_item){
+                MaterialAlertDialogBuilder(context)
+                    .setMessage(R.string.help_blacklist_message)
+                    .setPositiveButton(getString(R.string.understand)){dialog,_->
+                        dialog.dismiss()
+                    }
+                    .show()
             }
             true
         }

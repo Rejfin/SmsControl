@@ -74,9 +74,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        // check log //
+        // show log //
         logPref?.setOnPreferenceClickListener {
-            LogDataDialog().showDialog(parentFragmentManager)
+            activity?.supportFragmentManager!!.beginTransaction()
+                .replace(R.id.fragment_container,LogsFragment())
+                .addToBackStack("LOGS")
+                .commit()
             true
         }
 
