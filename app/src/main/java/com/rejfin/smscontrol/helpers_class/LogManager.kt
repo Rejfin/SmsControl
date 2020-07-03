@@ -14,7 +14,7 @@ object LogManager {
             val file = context.openFileOutput("Log.txt",Context.MODE_APPEND)
             val calendar = Calendar.getInstance()
             val date = DateFormat.format("dd.MM.yyyy HH:mm:ss",calendar.timeInMillis)
-            file.write("\n$date -> $message".toByteArray())
+            file.write("$date -> $message\n".toByteArray())
             file.close()
         }catch (e:Exception){
             FirebaseCrashlytics.getInstance().recordException(e)

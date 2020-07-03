@@ -93,7 +93,7 @@
     <string name="bluetooth_off_help_desc">Turns off bluetooth</string>
     <string name="sound_on_help_desc">Set sound level (Ringtone and music) to max</string>
     <string name="sound_off_help_desc">Set sound level (Ringtone and music) to 0</string>
-    <string name="set_sound_level_help_desc">Determine which speaker level suits you \n Ex. of use: @1234 setSoundLevel 5</string>
+    <string name="set_sound_level_help_desc">Determine which sound level suits you \nExample of use:\n@1234 setSoundLevel 5</string>
     <string name="play_sound_help_desc">Play selected song, if you are not select any song, it will be played default ringtone</string>
     <string name="sync_on_help_desc">Turns on synchronization</string>
     <string name="sync_off_help_desc">Turns off synchronization</string>
@@ -105,4 +105,5 @@
     <string name="mobile_data_off_help_desc">Turns off mobile data\nCaution!\nThis command will only work on phones with root privilege and may not work on all devices because android api does not officially support this</string>
     <string name="restart_help_desc">Restart your phone\nCaution!\nThis command will only work on phones with root privilege and may not work on all devices because android api does not officially support this</string>
     <string name="shutdown_help_desc">Shutdown your phone\nCaution!\nThis command will only work on phones with root privilege and may not work on all devices because android api does not officially support this</string>
+    <string name="shutdown_reboot_warn_often">You cannot use this command more often than every 30s</string>
 </resources>

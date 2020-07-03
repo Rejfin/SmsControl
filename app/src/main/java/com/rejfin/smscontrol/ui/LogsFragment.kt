@@ -31,7 +31,7 @@ class LogsFragment : Fragment() {
 
         toolbar.setOnMenuItemClickListener {
             if(it.itemId == R.id.item_one){
-                MaterialAlertDialogBuilder(context)
+                MaterialAlertDialogBuilder(requireContext())
                     .setMessage(R.string.clear_logs_warn_message)
                     .setPositiveButton(getString(R.string.yes)){dialog,_->
                         if(LogManager.clearLogs(requireContext())){
@@ -42,7 +42,7 @@ class LogsFragment : Fragment() {
                     .setNegativeButton(getString(R.string.cancel)){_,_->}
                     .show()
             }else if(it.itemId == R.id.help_item){
-                MaterialAlertDialogBuilder(context)
+                MaterialAlertDialogBuilder(requireContext())
                     .setMessage(R.string.help_log_message)
                     .setPositiveButton(getString(R.string.understand)){dialog,_->
                         dialog.dismiss()

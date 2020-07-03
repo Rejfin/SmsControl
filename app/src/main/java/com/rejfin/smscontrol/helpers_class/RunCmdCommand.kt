@@ -34,14 +34,14 @@ object RunCmdCommand {
             }
 
             if (processResult != 0) { //error executing command
-                //Log.d("smsControl", "result code : $processResult")
+                Log.d("smsControl", "result code : $processResult")
                 var line: String
                 var result = false
                 val bufferedReader =
                     BufferedReader(InputStreamReader(process!!.errorStream))
                 try {
                     while (bufferedReader.readLine().also { line = it } != null) {
-                        //Log.d("smsControl", "Error: $line")
+                        Log.d("smsControl", "Error: $line")
                         FirebaseCrashlytics.getInstance().log("Error: $line")
                     }
                 } catch (e: IOException) {

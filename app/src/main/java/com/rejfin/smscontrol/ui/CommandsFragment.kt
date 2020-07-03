@@ -191,7 +191,7 @@ class CommandsFragment : PreferenceFragmentCompat(),
 
     // function show dialog about the need for root //
     private fun showRootPermissionDialog(){
-        MaterialAlertDialogBuilder(context)
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(getString(R.string.root_needed))
             .setPositiveButton(
                 R.string.understand
@@ -201,7 +201,7 @@ class CommandsFragment : PreferenceFragmentCompat(),
 
     // function ask user for permission or open settings where user can grant needed permission //
     private fun askForPermission(requestCode: Int, permissions: Array<String>, message: String){
-        MaterialAlertDialogBuilder(context)
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(message)
             .setNegativeButton(getString(R.string.cancel)
             ) { dialog, _ -> dialog?.dismiss() }
@@ -260,7 +260,7 @@ class CommandsFragment : PreferenceFragmentCompat(),
 
     // shows when the user will deny the necessary permissions //
     private fun showDeniedMessage(){
-        MaterialAlertDialogBuilder(context)
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(getString(R.string.permission_denied))
             .setPositiveButton(getString(R.string.understand)
             ) { dialog, _ -> dialog?.dismiss() }
@@ -313,9 +313,9 @@ class CommandsFragment : PreferenceFragmentCompat(),
     // set preference state if they rely on other preference //
     // ex. 'select app to run' rely on 'run selected app' preference state //
     private fun loadDependencyPreference() {
-        preferenceManager.findPreference<ListPreference>("selected_app")!!.isEnabled =
+        preferenceManager.findPreference<ListPreference>("selected_app")!!.isVisible =
             pref!!.getBoolean("run_app_state",false)
-        preferenceManager.findPreference<Preference>("sound_name")!!.isEnabled =
+        preferenceManager.findPreference<Preference>("sound_name")!!.isVisible =
             pref!!.getBoolean("sound_play_state",false)
     }
 
@@ -325,11 +325,11 @@ class CommandsFragment : PreferenceFragmentCompat(),
                 preferenceManager.findPreference<EditTextPreference>(key)?.summary = preference?.getString(key,"")
             }
             "run_app_state" -> {
-                preferenceManager.findPreference<Preference>("selected_app")!!.isEnabled =
+                preferenceManager.findPreference<Preference>("selected_app")!!.isVisible =
                     preference!!.getBoolean(key,false)
             }
             "sound_play_state" -> {
-                preferenceManager.findPreference<Preference>("sound_name")!!.isEnabled =
+                preferenceManager.findPreference<Preference>("sound_name")!!.isVisible =
                     preference!!.getBoolean(key,false)
             }
         }

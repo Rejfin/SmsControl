@@ -61,7 +61,7 @@ class HomeFragment : Fragment() {
         imageView_mail.setOnClickListener {
             // check if permissions are granted if not ask for it //
             if(ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_DENIED){
-                MaterialAlertDialogBuilder(context)
+                MaterialAlertDialogBuilder(requireContext())
                     .setMessage(getString(R.string.sms_permission_info))
                     .setNegativeButton(getString(R.string.cancel)
                     ) { dialog, _ -> dialog?.dismiss() }
@@ -98,7 +98,7 @@ class HomeFragment : Fragment() {
                 if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     setReceiverState(!isReceiverRunning(requireContext(),component!!))
                 }else{
-                    MaterialAlertDialogBuilder(context)
+                    MaterialAlertDialogBuilder(requireContext())
                         .setMessage(getString(R.string.sms_permission_denied))
                         .setPositiveButton(getString(R.string.understand)
                         ) { dialog, _ -> dialog?.dismiss() }

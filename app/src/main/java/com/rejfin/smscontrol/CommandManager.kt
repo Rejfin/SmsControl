@@ -31,9 +31,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
 import java.lang.reflect.Method
+import java.util.*
 
 
 class CommandManager {
+    @SuppressLint("ApplySharedPref")
     fun manage(context: Context, intent: Intent?){
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val message = Telephony.Sms.Intents.getMessagesFromIntent(intent)
@@ -130,12 +132,24 @@ class CommandManager {
                     }
                     pref.getString("restart", null) -> {
                         if(pref.getBoolean("restart_state",false)) {
-                            rebootPhone(context)
+                            // check last use to prevent from boot loop //
+                            if(Calendar.getInstance().timeInMillis >= pref.getLong("restart_timestamp",0L)+30000){
+                                pref.edit().putLong("restart_timestamp",Calendar.getInstance().timeInMillis).commit()
+                                rebootPhone(context)
+                            }else{
+                                LogManager.saveToLog(context.getString(R.string.shutdown_reboot_warn_often),context)
+                            }
                         }
                     }
                     pref.getString("shutdown", null) -> {
                         if(pref.getBoolean("shutdown_state",false)) {
-                            shutdownPhone(context)
+                            // check last use to prevent from boot loop //
+                            if(Calendar.getInstance().timeInMillis >= pref.getLong("shutdown_timestamp",0L)+30000) {
+                                pref.edit().putLong("shutdown_timestamp",Calendar.getInstance().timeInMillis).commit()
+                                shutdownPhone(context)
+                            }else{
+                                LogManager.saveToLog(context.getString(R.string.shutdown_reboot_warn_often),context)
+                            }
                         }
                     }
                     pref.getString("bluetooth_on", null) -> {
@@ -168,7 +182,9 @@ class CommandManager {
                     }
                 }
             }else{
-                LogManager.saveToLog("[ERROR] Wrong security code: $messageSecurityCode",context)
+                if(messageBody[0] == '@'){
+                    LogManager.saveToLog("[ERROR] Wrong security code: $messageSecurityCode",context)
+                }
             }
         }else{
             LogManager.saveToLog("[INFO] Message from the number ($senderNumber) that is on the blacklist",context)
@@ -308,6 +324,7 @@ class CommandManager {
         val job = launch {
             // it's time for the phone to save the message as received, otherwise a boot loop may appear //
             delay(3000)
+
             if(!RunCmdCommand.commandAsync("su 0 -c reboot -p").await()){
                 Toast.makeText(context,context.getString(R.string.unexpected_error),Toast.LENGTH_LONG).show()
             }

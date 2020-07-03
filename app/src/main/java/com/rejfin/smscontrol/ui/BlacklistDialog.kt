@@ -85,7 +85,7 @@ class BlacklistDialog : DialogFragment() {
                 val nameField = inflater.findViewById<EditText>(R.id.editText_name)
                 val numberField = inflater.findViewById<EditText>(R.id.editText_number)
 
-                val dialog = MaterialAlertDialogBuilder(context)
+                val dialog = MaterialAlertDialogBuilder(requireContext())
                     .setView(inflater)
                     .setPositiveButton(R.string.add){_,_-> }
                     .setNegativeButton(R.string.cancel){_,_-> dismiss() }
@@ -113,7 +113,7 @@ class BlacklistDialog : DialogFragment() {
                 }
                 dialog.show()
             }else if(it.itemId == R.id.help_item){
-                MaterialAlertDialogBuilder(context)
+                MaterialAlertDialogBuilder(requireContext())
                     .setMessage(R.string.help_blacklist_message)
                     .setPositiveButton(getString(R.string.understand)){dialog,_->
                         dialog.dismiss()
@@ -126,7 +126,7 @@ class BlacklistDialog : DialogFragment() {
         adapter.setOnItemLongClickListener { item, adapterView ->
             val selectedItemId = recycle.getChildAdapterPosition(adapterView)
             val selectedItem = item as BlacklistItem
-            MaterialAlertDialogBuilder(activity)
+            MaterialAlertDialogBuilder(requireActivity())
                 .setMessage(getString(R.string.warn_message_blacklist,selectedItem.name))
                 .setPositiveButton(R.string.yes){_,_->
                     adapter.removeGroupAtAdapterPosition(selectedItemId)

@@ -60,6 +60,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         // set listener for dark mode preference //
         darkModePref.setOnPreferenceChangeListener { _, newValue ->
+            // save current fragment to back to settings after restoring view //
+            pref.edit().putInt("current_fragment",2).apply()
             if (newValue == "Light") {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             } else if (newValue == "Dark") {
