@@ -47,4 +47,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics:17.1.0'
     implementation "com.xwray:groupie:2.8.0"
     implementation "com.xwray:groupie-kotlin-android-extensions:2.8.0"
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta3'
 }

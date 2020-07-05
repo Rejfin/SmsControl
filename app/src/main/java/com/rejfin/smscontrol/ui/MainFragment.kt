@@ -2,6 +2,7 @@ package com.rejfin.smscontrol.ui
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.provider.Settings
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
@@ -10,6 +11,7 @@ import com.rejfin.smscontrol.R
 import com.rejfin.smscontrol.ui.other.PagerViewAdapter
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
+import kotlinx.coroutines.*
 
 
 class MainFragment : Fragment() {
@@ -42,10 +44,12 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         // set view pager for fragments//
         toolbar.menu.findItem(R.id.item_one)?.isVisible = false
+
         adapter.addFragment(HomeFragment(),resources.getString(R.string.home))
+        pager_view.adapter = adapter
         adapter.addFragment(CommandsFragment(),resources.getString(R.string.commands))
         adapter.addFragment(SettingsFragment(),resources.getString(R.string.settings))
-        pager_view.adapter = adapter
+        adapter.notifyDataSetChanged()
 
         // run after theme change to back to settings, not to home //
         if(pref.getInt("current_fragment",0) == 2){
