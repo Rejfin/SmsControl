@@ -35,6 +35,7 @@ class LocationService : Service(){
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val provider = intent!!.getStringArrayListExtra("providers")!!
         val senderNumber = intent.getStringExtra("number")!!
+        val duration = intent.getIntExtra("duration",30)
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val notify = ForegroundNotification()
             .createNotification(this,"A", NotificationManagerCompat.IMPORTANCE_LOW,getString(
@@ -52,8 +53,8 @@ class LocationService : Service(){
                 val passiveLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
                 val listAvailableLocation = mutableListOf<Location?>(gpsLocation,networkLocation,passiveLocation)
                 for (i in listAvailableLocation.size-1 downTo 0){
-                    // remove nulls and location older than 30 min //
-                    if(listAvailableLocation[i] == null || listAvailableLocation[i]!!.time < Date().time - 1800000){
+                    // remove nulls and location older than 10 min //
+                    if(listAvailableLocation[i] == null || listAvailableLocation[i]!!.time < Date().time - 600000){
                         listAvailableLocation.removeAt(i)
                     }
                 }
@@ -120,7 +121,7 @@ class LocationService : Service(){
             }else{
                 // choose the best data from the available providers after 30s //
                 CoroutineScope(Dispatchers.IO).launch {
-                    val timer = async { delay(30000) }
+                    val timer = async { delay(duration*1000L) }
                     timer.await()
                     val finalLocation:Location? = if(locationOne != null){
                         if(locationTwo != null){
@@ -152,6 +153,7 @@ class LocationService : Service(){
                             senderNumber
                         )
                     }
+                    delay(3000)
                     stopForeground(true)
                     stopSelf()
                 }

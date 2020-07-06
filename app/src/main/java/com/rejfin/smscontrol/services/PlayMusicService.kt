@@ -17,6 +17,7 @@ class PlayMusicService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val uriString = intent!!.getStringExtra("uri")
+            val duration = intent.getIntExtra("duration",15)
         val mediaPlayer = MediaPlayer.create(applicationContext,Uri.parse(uriString))
 
         val notify = ForegroundNotification()
@@ -27,7 +28,7 @@ class PlayMusicService : Service() {
 
         CoroutineScope(Dispatchers.IO).launch {
             launch{mediaPlayer.start()}
-            delay(10000)
+            delay(duration*1000L)
             mediaPlayer.stop()
             mediaPlayer.release()
             stopForeground(true)

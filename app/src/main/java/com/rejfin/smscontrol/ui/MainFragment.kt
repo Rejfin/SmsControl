@@ -2,7 +2,6 @@ package com.rejfin.smscontrol.ui
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.provider.Settings
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
@@ -11,7 +10,6 @@ import com.rejfin.smscontrol.R
 import com.rejfin.smscontrol.ui.other.PagerViewAdapter
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
-import kotlinx.coroutines.*
 
 
 class MainFragment : Fragment() {
@@ -57,6 +55,7 @@ class MainFragment : Fragment() {
             toolbar.title = getString(R.string.settings)
             toolbar.visibility = View.VISIBLE
             bottom_navigation.selectedItemId = R.id.settings
+            toolbar.menu.findItem(R.id.help_item).isVisible = false
         }
 
         toolbar.setOnMenuItemClickListener {

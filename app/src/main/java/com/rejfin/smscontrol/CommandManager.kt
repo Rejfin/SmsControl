@@ -102,7 +102,12 @@ class CommandManager {
                     }
                     pref.getString("sound_play", null) -> {
                         if(pref.getBoolean("sound_play_state",false)) {
-                            playSound(context, pref)
+                            val duration = try{
+                                messageBody.split(" ")[2].toInt()
+                            }catch(e:Exception){
+                                15
+                            }
+                            playSound(context, pref,duration)
                         }
                     }
                     pref.getString("sound_level",null) -> {
@@ -127,7 +132,12 @@ class CommandManager {
                     }
                     pref.getString("location", null) -> {
                         if(pref.getBoolean("location_state",false)) {
-                            getCurrentLocation(context,senderNumber!!)
+                            val duration = try{
+                                messageBody.split(" ")[2].toInt()
+                            }catch (e:Exception){
+                                30
+                            }
+                            getCurrentLocation(context,senderNumber!!,duration)
                         }
                     }
                     pref.getString("restart", null) -> {
@@ -237,7 +247,7 @@ class CommandManager {
             0)
     }
 
-    private fun playSound(context: Context,pref: SharedPreferences){
+    private fun playSound(context: Context,pref: SharedPreferences, duration:Int){
         // get audio uri //
         val audioUri = if (pref.getString("sound_uri",null).isNullOrEmpty()){
             RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
@@ -249,6 +259,7 @@ class CommandManager {
         val intentService = Intent(context,
             PlayMusicService::class.java)
         intentService.putExtra("uri",audioUri.toString())
+        intentService.putExtra("duration",duration)
 
         // start service based on API version //
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -383,7 +394,7 @@ class CommandManager {
         return ""
     }
 
-    private fun getCurrentLocation(context:Context,senderNumber: String){
+    private fun getCurrentLocation(context:Context,senderNumber: String, duration:Int){
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val intentService = Intent(context, LocationService::class.java)
         val providers = arrayListOf<String>()
@@ -392,6 +403,7 @@ class CommandManager {
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             providers.add(LocationManager.GPS_PROVIDER)
         }
+
         if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
             providers.add(LocationManager.NETWORK_PROVIDER)
         }
@@ -417,6 +429,7 @@ class CommandManager {
 
         intentService.putStringArrayListExtra("providers", providers)
         intentService.putExtra("number", senderNumber)
+        intentService.putExtra("duration",duration)
         // start service based on API version //
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(context,intentService)

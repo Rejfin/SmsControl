@@ -84,6 +84,7 @@
     <string name="add">Add</string>
     <string name="cant_be_empty">Field can\'t be empty</string>
     <string name="help">Help</string>
+    <string name="help_desc_all">The general command pattern is:\n\t\t\t@securityCode command\n\nExample:\n\t\t\t@1234 wifiOn\n\nCommands can occur in two variants:\n 1.Without argument: @1234 wifiOn\n 2.With argument @1234 playSound 10\n\n(Arguments are never required, commands always have default values which will be used when the user doesn\'t set an argument)\n\n<b>Caution!!</b>\nCommand that require root privilege may not work on all devices because android api does not officially support it</string>
     <string name="help_blacklist_message">Messages that come from numbers added to this list will be ignored regardless of whether the message is correct or not</string>
     <string name="help_log_message">Here you can see all actions taken with the help of sms messages</string>
     <string name="clear_logs_warn_message">Are you sure you want to clear all logs?</string>
@@ -94,16 +95,16 @@
     <string name="sound_on_help_desc">Set sound level (Ringtone and music) to max</string>
     <string name="sound_off_help_desc">Set sound level (Ringtone and music) to 0</string>
     <string name="set_sound_level_help_desc">Determine which sound level suits you \nExample of use:\n@1234 setSoundLevel 5</string>
-    <string name="play_sound_help_desc">Play selected song, if you are not select any song, it will be played default ringtone</string>
+    <string name="play_sound_help_desc">Play selected song, if you are not select any song, it will be played default ringtone.\nYou can add additional argument for the time(in seconds) the music should play</string>
     <string name="sync_on_help_desc">Turns on synchronization</string>
     <string name="sync_off_help_desc">Turns off synchronization</string>
     <string name="command_list_help_desc">Sends to the sender of the message the list of commands that are enabled</string>
     <string name="get_info_help_desc">Sends information about the status of the phone and its sensors to the sender of the message</string>
-    <string name="location_help_desc">Tries to download the location of the phone and send it to the sender of the message</string>
+    <string name="location_help_desc">Tries to determine the location of the phone and send it to the sender of the message.\nYou can add additional argument for the time(in seconds) for which the location should be determined</string>
     <string name="run_app_help_desc">Run the application that was previously selected, if no application has been selected, the message will be ignored</string>
-    <string name="mobile_data_on_help_desc">Turns on mobile data\nCaution!\nThis command will only work on phones with root privilege and may not work on all devices because android api does not officially support this</string>
-    <string name="mobile_data_off_help_desc">Turns off mobile data\nCaution!\nThis command will only work on phones with root privilege and may not work on all devices because android api does not officially support this</string>
-    <string name="restart_help_desc">Restart your phone\nCaution!\nThis command will only work on phones with root privilege and may not work on all devices because android api does not officially support this</string>
-    <string name="shutdown_help_desc">Shutdown your phone\nCaution!\nThis command will only work on phones with root privilege and may not work on all devices because android api does not officially support this</string>
+    <string name="mobile_data_on_help_desc">Turns on mobile data\n<b>Caution!</b>\nThis command need root privilege</string>
+    <string name="mobile_data_off_help_desc">Turns off mobile data\n<b>Caution!</b>\nThis command need root privilege</string>
+    <string name="restart_help_desc">Restart your phone\n<b>Caution!</b>\nThis command need root privilege</string>
+    <string name="shutdown_help_desc">Shutdown your phone\n<b>Caution!</b>\nThis command need root privilege</string>
     <string name="shutdown_reboot_warn_often">You cannot use this command more often than every 30s</string>
 </resources>
