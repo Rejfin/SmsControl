@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity(){
             val uuid = UUID.randomUUID()
             FirebaseCrashlytics.getInstance().setUserId(uuid.toString())
             pref.edit().putString("userId", uuid.toString()).commit()
+        }else{
+            FirebaseCrashlytics.getInstance().setUserId(pref.getString("userId","")!!)
         }
     }
 

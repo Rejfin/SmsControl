@@ -1,6 +1,8 @@
 package com.rejfin.smscontrol.ui.other
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -9,6 +11,7 @@ import androidx.preference.PreferenceManager
 import androidx.preference.PreferenceViewHolder
 import com.rejfin.smscontrol.R
 import kotlinx.android.synthetic.main.preference_command_layout.view.*
+
 
 class CustomPreferenceItem : EditTextPreference{
     constructor(context: Context) : super(context)
@@ -27,25 +30,50 @@ class CustomPreferenceItem : EditTextPreference{
     override fun onBindViewHolder(holder: PreferenceViewHolder?) {
         super.onBindViewHolder(holder)
         this.holder = holder
-        itemView =  holder!!.itemView
-        val linear:LinearLayout = holder.findViewById(R.id.linear_layout) as LinearLayout
+        itemView = holder!!.itemView
+        val linear: LinearLayout = holder.findViewById(R.id.linear_layout) as LinearLayout
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        state = pref.getBoolean(super.getKey()+"_state",false)
+        // prevent entering a space character //
+        super.setOnBindEditTextListener {
+            it.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    if (s!!.contains(" ")) {
+                        it.error = context.getString(R.string.space_not_allowed)
+                    } else {
+                        it.error = null
+                    }
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+            })
+        }
+
+        state = pref.getBoolean(super.getKey() + "_state", false)
         PreferenceManager.getDefaultSharedPreferences(context)
-            .edit().putBoolean(super.getKey()+"_state",state).apply()
+            .edit().putBoolean(super.getKey() + "_state", state).apply()
 
         itemView.checkbox_state.isChecked = state
-        for( i in 0 until linear.childCount step 1){
+        for (i in 0 until linear.childCount step 1) {
             linear.getChildAt(i).isEnabled = itemView.checkbox_state.isChecked
         }
 
         itemView.checkbox_state.setOnClickListener {
             state = itemView.checkbox_state.isChecked
-            for( i in 0 until linear.childCount step 1){
+            for (i in 0 until linear.childCount step 1) {
                 linear.getChildAt(i).isEnabled = itemView.checkbox_state.isChecked
             }
-            pref.edit().putBoolean(super.getKey()+"_state",itemView.checkbox_state.isChecked).apply()
+            pref.edit().putBoolean(super.getKey() + "_state", itemView.checkbox_state.isChecked)
+                .apply()
             mListener?.onStateChange()
         }
     }
