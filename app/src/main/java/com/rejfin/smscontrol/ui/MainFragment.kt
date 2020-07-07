@@ -42,12 +42,10 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         // set view pager for fragments//
         toolbar.menu.findItem(R.id.item_one)?.isVisible = false
-
         adapter.addFragment(HomeFragment(),resources.getString(R.string.home))
-        pager_view.adapter = adapter
         adapter.addFragment(CommandsFragment(),resources.getString(R.string.commands))
         adapter.addFragment(SettingsFragment(),resources.getString(R.string.settings))
-        adapter.notifyDataSetChanged()
+        pager_view.adapter = adapter
 
         // run after theme change to back to settings, not to home //
         if(pref.getInt("current_fragment",0) == 2){
