@@ -1,29 +1,40 @@
-package com.rejfin.smscontrol.ui
+package com.rejfin.smscontrol.ui.activities
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
-import com.rejfin.smscontrol.MainActivity
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.rejfin.smscontrol.R
+import com.rejfin.smscontrol.ui.fragments.MainFragment
+import java.util.*
 
-class SplashScreenActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(){
+    @SuppressLint("ApplySharedPref")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash_screen)
+        setContentView(R.layout.activity_main)
+        PreferenceManager.setDefaultValues(this,
+            R.xml.commands_preference, false)
         loadTheme()
 
-        val intentMain = Intent(this,MainActivity::class.java)
+        supportFragmentManager.beginTransaction().replace(
+            R.id.fragment_container,
+            MainFragment()
+        ).commit()
 
-        Handler().postDelayed(
-            {
-                startActivity(intentMain)
-                finish()
-            },2000
-        )
+        // set userId for firebase crashlytics //
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        if (pref.getString("userId", "") == "") {
+            val uuid = UUID.randomUUID()
+            FirebaseCrashlytics.getInstance().setUserId(uuid.toString())
+            pref.edit().putString("userId", uuid.toString()).commit()
+        }else{
+            FirebaseCrashlytics.getInstance().setUserId(pref.getString("userId","")!!)
+        }
     }
 
     // load user preferences //

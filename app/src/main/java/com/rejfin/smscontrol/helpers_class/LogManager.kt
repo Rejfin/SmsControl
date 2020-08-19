@@ -9,6 +9,7 @@ import java.lang.Exception
 import java.util.*
 
 object LogManager {
+    // save data to log file //
     fun saveToLog(message:String,context: Context){
         try{
             val file = context.openFileOutput("Log.txt",Context.MODE_APPEND)
@@ -21,6 +22,7 @@ object LogManager {
         }
     }
 
+    // read data saved in log file //
     fun readFromLog(context: Context):String{
         return try{
             val file = context.openFileInput("Log.txt")
@@ -35,6 +37,7 @@ object LogManager {
         }
     }
 
+    // clear log file //
     fun clearLogs(context: Context):Boolean{
         return try{
             context.deleteFile("Log.txt")

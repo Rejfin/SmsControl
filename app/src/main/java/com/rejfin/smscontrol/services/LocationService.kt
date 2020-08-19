@@ -119,7 +119,7 @@ class LocationService : Service(){
                 stopForeground(true)
                 stopSelf()
             }else{
-                // choose the best data from the available providers after 30s //
+                // choose the best data from the available providers after duration time //
                 CoroutineScope(Dispatchers.IO).launch {
                     val timer = async { delay(duration*1000L) }
                     timer.await()

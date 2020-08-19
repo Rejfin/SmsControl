@@ -1,4 +1,4 @@
-package com.rejfin.smscontrol.ui
+package com.rejfin.smscontrol.ui.fragments
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.text.HtmlCompat
 import androidx.preference.ListPreference
@@ -40,6 +41,20 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 "<font color='red'>${getString(R.string.root_denied)}</font>",
                 HtmlCompat.FROM_HTML_MODE_LEGACY
             )
+        }
+
+        aboutPref?.setOnPreferenceClickListener {
+            val title = "${getString(R.string.app_name)} by Rejfin"
+            AlertDialog.Builder(requireContext())
+                .setTitle(title)
+                .setMessage(R.string.icons_made_by)
+                .setPositiveButton(R.string.ok){_,_->}
+                .setNeutralButton(R.string.go_to_artist){_,_->
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.flaticon.com/authors/photo3idea-studio"))
+                    startActivity(intent)
+                }
+                .show()
+            true
         }
 
         // set feedback listener, create chooser intent //
@@ -79,7 +94,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         // show log //
         logPref?.setOnPreferenceClickListener {
             activity?.supportFragmentManager!!.beginTransaction()
-                .replace(R.id.fragment_container,LogsFragment())
+                .replace(R.id.fragment_container,
+                    LogsFragment()
+                )
                 .addToBackStack("LOGS")
                 .commit()
             true

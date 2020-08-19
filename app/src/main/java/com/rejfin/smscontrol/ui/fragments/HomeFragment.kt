@@ -1,4 +1,4 @@
-package com.rejfin.smscontrol.ui
+package com.rejfin.smscontrol.ui.fragments
 
 import android.Manifest
 import android.content.ComponentName

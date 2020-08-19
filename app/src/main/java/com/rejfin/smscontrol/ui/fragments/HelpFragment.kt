@@ -1,4 +1,4 @@
-package com.rejfin.smscontrol.ui
+package com.rejfin.smscontrol.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

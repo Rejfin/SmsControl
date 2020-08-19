@@ -1,4 +1,4 @@
-package com.rejfin.smscontrol.ui
+package com.rejfin.smscontrol.ui.fragments
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -59,7 +59,9 @@ class MainFragment : Fragment() {
         toolbar.setOnMenuItemClickListener {
             if(it.itemId == R.id.help_item){
                 parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container,HelpFragment())
+                    .replace(R.id.fragment_container,
+                        HelpFragment()
+                    )
                     .addToBackStack("HELP")
                     .commit()
             }

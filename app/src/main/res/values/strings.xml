@@ -108,4 +108,6 @@
     <string name="shutdown_help_desc">Shutdown your phone\n<b>Caution!</b>\nThis command need root privilege</string>
     <string name="shutdown_reboot_warn_often">You cannot use this command more often than every 30s</string>
     <string name="space_not_allowed">Space is not allowed!</string>
+    <string name="icons_made_by">Icons used in loading screen are made by <a href="https://www.flaticon.com/authors/photo3idea-studio">photo3idea_studio</a> from www.flaticon.com</string>
+    <string name="go_to_artist">Show artist page</string>
 </resources>

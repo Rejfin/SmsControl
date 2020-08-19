@@ -1,4 +1,4 @@
-package com.rejfin.smscontrol.ui
+package com.rejfin.smscontrol.ui.fragments
 
 import android.Manifest
 import android.app.Activity.RESULT_OK
@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rejfin.smscontrol.R
+import com.rejfin.smscontrol.ui.other.BlacklistDialog
 import com.rejfin.smscontrol.ui.other.CustomPreferenceItem
 
 

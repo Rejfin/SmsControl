@@ -4,11 +4,12 @@ import android.content.*
 import android.provider.Telephony
 import com.rejfin.smscontrol.CommandManager
 
-
+// listen for new sms message //
 class SmsBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if(intent?.action.equals(Telephony.Sms.Intents.SMS_RECEIVED_ACTION)) {
-            CommandManager().manage(context!!,intent)
+            CommandManager()
+                .manage(context!!,intent)
         }
     }
 }

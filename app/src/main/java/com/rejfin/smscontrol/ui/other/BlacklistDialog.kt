@@ -1,4 +1,4 @@
-package com.rejfin.smscontrol.ui
+package com.rejfin.smscontrol.ui.other
 
 import android.app.Dialog
 import android.content.SharedPreferences
@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rejfin.smscontrol.R
-import com.rejfin.smscontrol.ui.other.BlacklistItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.blacklist_viewer_layout.view.*
@@ -30,7 +29,7 @@ class BlacklistDialog : DialogFragment() {
     private lateinit var pref:SharedPreferences
     private val myTAG:String = "DIALOG_BLACKLIST"
 
-    fun showDialog(fm:FragmentManager):BlacklistDialog{
+    fun showDialog(fm:FragmentManager): BlacklistDialog {
         val blacklistDialog = BlacklistDialog()
         blacklistDialog.show(fm,myTAG)
         return blacklistDialog
