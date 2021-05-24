@@ -37,6 +37,7 @@ Additionally, each text message must be preceded by a pin code (which user sets 
 * mobileDataOff -> turn off mobile data (root required)
 * restart -> restart phone (root required)
 * shutdown - > shutdown phone (root required)
+<br><br>___*root commands may not work on all devices*___ 
 
 ## ScreenShots
 <br><img src="https://user-images.githubusercontent.com/64009728/90672383-59cea080-e256-11ea-8823-dcd67bd64323.jpg" width="150" height="270">
